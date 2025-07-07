@@ -16,11 +16,13 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { mockEvents } from '@/data/mockData';
 import { TicketType } from '@/types';
+import BookingForm from '@/components/booking/BookingForm';
 
 const EventDetail = () => {
   const { id } = useParams();
   const [selectedTickets, setSelectedTickets] = useState<{[key: string]: number}>({});
   const [isLiked, setIsLiked] = useState(false);
+  const [showBookingForm, setShowBookingForm] = useState(false);
   
   const event = mockEvents.find(e => e.id === id);
   
@@ -422,7 +424,7 @@ const EventDetail = () => {
                 }) || (
                   <div className="text-center py-8 text-muted-foreground">
                     <p>Informations sur les billets bientôt disponibles</p>
-                    <p className="text-sm mt-2">Prix à partir de {event.price.min.toLocaleString()} {event.price.currency || 'CFA'}</p>
+                    <p className="text-sm mt-2">Prix à partir de {event.price.min.toLocaleString()} CFA</p>
                   </div>
                 )}
 
@@ -443,7 +445,11 @@ const EventDetail = () => {
                         </AlertDescription>
                       </Alert>
 
-                      <Button className="w-full" size="lg">
+                      <Button 
+                        className="w-full" 
+                        size="lg"
+                        onClick={() => setShowBookingForm(true)}
+                      >
                         <CreditCard className="mr-2 h-5 w-5" />
                         Réserver maintenant
                       </Button>
@@ -483,6 +489,15 @@ const EventDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Booking Form Modal */}
+      {showBookingForm && (
+        <BookingForm
+          selectedTickets={selectedTickets}
+          totalPrice={getTotalPrice()}
+          onClose={() => setShowBookingForm(false)}
+        />
+      )}
     </div>
   );
 };
