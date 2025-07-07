@@ -55,8 +55,9 @@ const EventDetail = () => {
   };
 
   const getTotalPrice = () => {
+    if (!event.tickets) return 0;
     return Object.entries(selectedTickets).reduce((total, [ticketId, quantity]) => {
-      const ticket = event.tickets.find(t => t.id === ticketId);
+      const ticket = event.tickets!.find(t => t.id === ticketId);
       return total + (ticket ? ticket.price * quantity : 0);
     }, 0);
   };
@@ -75,6 +76,9 @@ const EventDetail = () => {
     return { status: 'available', text: 'Disponible', color: 'bg-green-500' };
   };
 
+  const eventImage = event.image || event.images?.[0] || '/placeholder.svg';
+  const eventDescription = event.description || event.fullDescription || event.shortDescription;
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -90,7 +94,7 @@ const EventDetail = () => {
       {/* Hero Image */}
       <div className="relative h-96 md:h-[500px] overflow-hidden">
         <img
-          src={event.image}
+          src={eventImage}
           alt={event.title}
           className="w-full h-full object-cover"
         />
@@ -120,7 +124,7 @@ const EventDetail = () => {
               </Badge>
               {event.featured && (
                 <Badge className="bg-gradient-to-r from-purple-500 to-pink-500">
-                  ⭐ Featured
+                  Featured
                 </Badge>
               )}
               <Badge variant="outline" className="text-white border-white/50">
@@ -157,7 +161,7 @@ const EventDetail = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground leading-relaxed">
-                  {event.description}
+                  {eventDescription}
                 </p>
                 
                 {/* Tags */}
@@ -231,11 +235,13 @@ const EventDetail = () => {
                       )}
                     </div>
                     <div className="flex items-center space-x-4 mb-3">
-                      <div className="flex items-center">
-                        <Star className="h-4 w-4 mr-1 fill-yellow-400 text-yellow-400" />
-                        <span className="font-medium">{event.organizer.rating}</span>
-                        <span className="text-muted-foreground ml-1">(127 avis)</span>
-                      </div>
+                      {event.organizer.rating && (
+                        <div className="flex items-center">
+                          <Star className="h-4 w-4 mr-1 fill-yellow-400 text-yellow-400" />
+                          <span className="font-medium">{event.organizer.rating}</span>
+                          <span className="text-muted-foreground ml-1">(127 avis)</span>
+                        </div>
+                      )}
                       <span className="text-muted-foreground">•</span>
                       <span className="text-muted-foreground">23 événements organisés</span>
                     </div>
@@ -344,7 +350,7 @@ const EventDetail = () => {
                 <CardTitle>Choisir vos billets</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {event.tickets.map((ticket) => {
+                {event.tickets?.map((ticket) => {
                   const availability = getAvailabilityStatus(ticket);
                   const selectedQuantity = selectedTickets[ticket.id] || 0;
                   const maxQuantity = Math.min(5, ticket.quantity - ticket.sold);
@@ -371,7 +377,7 @@ const EventDetail = () => {
                         
                         <div className="text-right ml-4">
                           <div className="text-xl font-bold text-primary mb-1">
-                            {ticket.price}€
+                            {ticket.price.toLocaleString()} CFA
                           </div>
                           <Badge 
                             variant="secondary" 
@@ -413,7 +419,12 @@ const EventDetail = () => {
                       )}
                     </div>
                   );
-                })}
+                }) || (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <p>Informations sur les billets bientôt disponibles</p>
+                    <p className="text-sm mt-2">Prix à partir de {event.price.min.toLocaleString()} {event.price.currency || 'CFA'}</p>
+                  </div>
+                )}
 
                 {/* Total */}
                 {getTotalTickets() > 0 && (
@@ -422,7 +433,7 @@ const EventDetail = () => {
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="font-medium">Total ({getTotalTickets()} billet{getTotalTickets() > 1 ? 's' : ''})</span>
-                        <span className="text-xl font-bold text-primary">{getTotalPrice()}€</span>
+                        <span className="text-xl font-bold text-primary">{getTotalPrice().toLocaleString()} CFA</span>
                       </div>
                       
                       <Alert>

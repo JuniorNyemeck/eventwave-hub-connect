@@ -1,4 +1,3 @@
-
 import { Music, Mic, Briefcase, Palette, Utensils, Users, Gamepad2, Camera } from 'lucide-react';
 
 export const categories = [
@@ -72,6 +71,7 @@ export const mockEvents = [
     id: '1',
     title: 'Concert Jazz Fusion Night',
     shortDescription: 'Une soirée jazz exceptionnelle avec les meilleurs musiciens du Cameroun',
+    description: 'Une soirée jazz exceptionnelle avec les meilleurs musiciens du Cameroun',
     fullDescription: 'Rejoignez-nous pour une soirée jazz inoubliable mettant en vedette les talents locaux et internationaux. Une expérience musicale unique dans le cadre magnifique du Centre Culturel de Douala.',
     date: '2025-02-15',
     time: '20:00',
@@ -82,23 +82,47 @@ export const mockEvents = [
       coordinates: { lat: 4.0511, lng: 9.7679 }
     },
     category: 'Concerts',
-    price: { min: 15000, max: 35000 },
+    price: { min: 15000, max: 35000, currency: 'CFA' },
+    image: '/placeholder.svg',
     images: ['/placeholder.svg'],
     organizer: {
+      id: '1',
       name: 'EventPro Cameroun',
       avatar: '/placeholder.svg',
-      verified: true
+      verified: true,
+      rating: 4.8
     },
     attendees: 250,
     capacity: 300,
     status: 'upcoming' as const,
     featured: true,
-    tags: ['jazz', 'musique', 'culture']
+    tags: ['jazz', 'musique', 'culture'],
+    tickets: [
+      {
+        id: 'jazz-standard',
+        name: 'Billet Standard',
+        price: 15000,
+        description: 'Accès général à la soirée',
+        quantity: 200,
+        sold: 150,
+        benefits: ['Accès à la salle', 'Consommation offerte']
+      },
+      {
+        id: 'jazz-vip',
+        name: 'Billet VIP',
+        price: 35000,
+        description: 'Accès VIP avec privilèges',
+        quantity: 100,
+        sold: 75,
+        benefits: ['Accès VIP', 'Meet & Greet', 'Buffet inclus']
+      }
+    ]
   },
   {
     id: '2',
     title: 'Festival Makossa Revival',
     shortDescription: 'Célébration de la musique makossa traditionnelle',
+    description: 'Célébration de la musique makossa traditionnelle',
     fullDescription: 'Un festival dédié à la musique makossa, patrimoine musical du Cameroun, avec des artistes légendaires et de nouvelles générations.',
     date: '2025-03-20',
     time: '18:00',
@@ -109,18 +133,41 @@ export const mockEvents = [
       coordinates: { lat: 4.0123, lng: 9.7321 }
     },
     category: 'Concerts',
-    price: { min: 10000, max: 25000 },
+    price: { min: 10000, max: 25000, currency: 'CFA' },
+    image: '/placeholder.svg',
     images: ['/placeholder.svg'],
     organizer: {
+      id: '2',
       name: 'Cultural Heritage',
       avatar: '/placeholder.svg',
-      verified: false
+      verified: false,
+      rating: 4.2
     },
     attendees: 800,
     capacity: 1000,
     status: 'upcoming' as const,
     featured: true,
-    tags: ['makossa', 'tradition', 'festival']
+    tags: ['makossa', 'tradition', 'festival'],
+    tickets: [
+      {
+        id: 'makossa-standard',
+        name: 'Billet Standard',
+        price: 10000,
+        description: 'Accès général au festival',
+        quantity: 800,
+        sold: 600,
+        benefits: ['Accès au festival', 'Programme officiel']
+      },
+      {
+        id: 'makossa-premium',
+        name: 'Billet Premium',
+        price: 25000,
+        description: 'Accès premium avec avantages',
+        quantity: 200,
+        sold: 150,
+        benefits: ['Accès premium', 'Zone réservée', 'Merchandising offert']
+      }
+    ]
   },
   {
     id: '11',

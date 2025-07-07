@@ -1,10 +1,11 @@
-
 export interface Event {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   shortDescription: string;
-  image: string;
+  fullDescription?: string;
+  image?: string;
+  images?: string[];
   date: string;
   time: string;
   location: {
@@ -20,13 +21,13 @@ export interface Event {
   price: {
     min: number;
     max: number;
-    currency: string;
+    currency?: string;
   };
   organizer: {
-    id: string;
+    id?: string;
     name: string;
     avatar: string;
-    rating: number;
+    rating?: number;
     verified: boolean;
   };
   capacity: number;
@@ -34,7 +35,7 @@ export interface Event {
   tags: string[];
   featured: boolean;
   status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
-  tickets: TicketType[];
+  tickets?: TicketType[];
 }
 
 export interface TicketType {

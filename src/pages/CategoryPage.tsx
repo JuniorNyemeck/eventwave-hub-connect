@@ -8,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import EventCard from '@/components/events/EventCard';
-import { mockEvents, categories } from '@/data/mockData';
+import { mockEvents, categories, cameroonCities } from '@/data/mockData';
 
 const CategoryPage = () => {
   const { categoryId } = useParams();
@@ -20,11 +20,6 @@ const CategoryPage = () => {
   const categoryEvents = mockEvents.filter(event => 
     event.category.toLowerCase() === category?.name.toLowerCase()
   );
-
-  const cameroonCities = [
-    'Douala', 'Yaoundé', 'Bafoussam', 'Bamenda', 'Garoua', 'Maroua',
-    'Ngaoundéré', 'Bertoua', 'Ebolowa', 'Kribi', 'Limbe', 'Buea'
-  ];
 
   const filteredEvents = useMemo(() => {
     let filtered = categoryEvents.filter(event => {
@@ -79,6 +74,8 @@ const CategoryPage = () => {
     upcomingEvents: categoryEvents.filter(event => event.status === 'upcoming').length
   };
 
+  const IconComponent = category.icon;
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -91,7 +88,7 @@ const CategoryPage = () => {
               </Button>
             </Link>
             <div className={`w-12 h-12 rounded-full ${category.color} flex items-center justify-center text-2xl`}>
-              {category.icon}
+              <IconComponent className="h-6 w-6" />
             </div>
             <div>
               <h1 className="text-4xl font-bold">{category.name}</h1>
@@ -117,8 +114,8 @@ const CategoryPage = () => {
             </Card>
             <Card>
               <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-primary">{Math.round(stats.avgPrice)}€</div>
-                <div className="text-sm text-muted-foreground">Prix moyen</div>
+                <div className="text-2xl font-bold text-primary">{Math.round(stats.avgPrice).toLocaleString()}</div>
+                <div className="text-sm text-muted-foreground">Prix moyen (CFA)</div>
               </CardContent>
             </Card>
             <Card>

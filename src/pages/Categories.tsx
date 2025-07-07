@@ -70,12 +70,13 @@ const Categories = () => {
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           {featuredCategories.map((category) => {
             const stats = getCategoryStats(category.name);
+            const IconComponent = category.icon;
             
             return (
               <Card key={category.id} className="group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/50">
                 <CardHeader className="text-center pb-4">
                   <div className={`w-20 h-20 mx-auto mb-4 rounded-full ${category.color} flex items-center justify-center text-3xl group-hover:scale-110 transition-transform`}>
-                    {category.icon}
+                    <IconComponent className="h-8 w-8" />
                   </div>
                   <CardTitle className="text-xl group-hover:text-primary transition-colors">
                     {category.name}
@@ -122,12 +123,14 @@ const Categories = () => {
             
             if (categoryEvents.length === 0) return null;
             
+            const IconComponent = category.icon;
+            
             return (
               <div key={category.id}>
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center space-x-3">
                     <div className={`w-10 h-10 rounded-full ${category.color} flex items-center justify-center text-lg`}>
-                      {category.icon}
+                      <IconComponent className="h-5 w-5" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold">{category.name}</h3>
@@ -167,6 +170,7 @@ const Categories = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {allCategories.map((category) => {
               const stats = getCategoryStats(category.name);
+              const IconComponent = category.icon;
               
               return (
                 <Link key={category.id} to={`/categories/${category.id}`}>
@@ -174,7 +178,7 @@ const Categories = () => {
                     <CardContent className="p-6 text-center h-full flex flex-col justify-between">
                       <div>
                         <div className={`w-12 h-12 mx-auto mb-3 rounded-full ${category.color} flex items-center justify-center text-xl group-hover:scale-110 transition-transform`}>
-                          {category.icon}
+                          <IconComponent className="h-6 w-6" />
                         </div>
                         <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
                           {category.name}
