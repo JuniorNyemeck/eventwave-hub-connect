@@ -1,3 +1,4 @@
+
 import { useState, useMemo } from 'react';
 import { Search, Filter, MapPin, Calendar, DollarSign, Users, SlidersHorizontal, Grid, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -163,7 +164,7 @@ const Discover = () => {
                 onCheckedChange={() => handleCategoryToggle(category.name)}
               />
               <label htmlFor={category.id} className="text-sm flex items-center cursor-pointer">
-                <span className="mr-2">{category.icon}</span>
+                <span className="mr-2"><category.icon className="h-4 w-4" /></span>
                 {category.name}
                 <Badge variant="secondary" className="ml-2">
                   {category.count}

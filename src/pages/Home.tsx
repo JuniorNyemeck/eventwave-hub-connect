@@ -40,7 +40,7 @@ const Home = () => {
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-gray-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
         
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4 py-12">
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-4 py-16">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
             Découvrez des événements
             <span className="bg-gradient-to-r from-blue-400 to-gray-400 bg-clip-text text-transparent">
@@ -91,7 +91,7 @@ const Home = () => {
                   variant="secondary" 
                   className="bg-white/20 text-white border-white/30 hover:bg-white/30 transition-colors px-4 py-2 text-sm"
                 >
-                  {category.icon}
+                  <category.icon className="h-4 w-4" />
                   <span className="ml-2">{category.name}</span>
                 </Badge>
               </Link>
@@ -159,7 +159,7 @@ const Home = () => {
                 <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group border-2 hover:border-primary/50">
                   <CardContent className="p-6 text-center">
                     <div className={`w-16 h-16 mx-auto mb-4 rounded-full ${category.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                      {category.icon}
+                      <category.icon className="h-6 w-6" />
                     </div>
                     <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
                       {category.name}
