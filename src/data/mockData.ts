@@ -5,59 +5,65 @@ export const categories = [
   {
     id: 'concerts',
     name: 'Concerts',
-    icon: <Music className="h-5 w-5" />,
+    icon: Music,
     color: 'bg-blue-100 text-blue-600',
     count: 45
   },
   {
     id: 'conferences',
     name: 'Conférences',
-    icon: <Mic className="h-5 w-5" />,
+    icon: Mic,
     color: 'bg-green-100 text-green-600',
     count: 32
   },
   {
     id: 'business',
     name: 'Business',
-    icon: <Briefcase className="h-5 w-5" />,
+    icon: Briefcase,
     color: 'bg-purple-100 text-purple-600',
     count: 28
   },
   {
     id: 'art',
     name: 'Art & Culture',
-    icon: <Palette className="h-5 w-5" />,
+    icon: Palette,
     color: 'bg-pink-100 text-pink-600',
     count: 24
   },
   {
     id: 'food',
     name: 'Gastronomie',
-    icon: <Utensils className="h-5 w-5" />,
+    icon: Utensils,
     color: 'bg-orange-100 text-orange-600',
     count: 18
   },
   {
     id: 'networking',
     name: 'Networking',
-    icon: <Users className="h-5 w-5" />,
+    icon: Users,
     color: 'bg-cyan-100 text-cyan-600',
     count: 21
   },
   {
     id: 'gaming',
     name: 'Gaming',
-    icon: <Gamepad2 className="h-5 w-5" />,
+    icon: Gamepad2,
     color: 'bg-red-100 text-red-600',
     count: 15
   },
   {
     id: 'photography',
     name: 'Photographie',
-    icon: <Camera className="h-5 w-5" />,
+    icon: Camera,
     color: 'bg-yellow-100 text-yellow-600',
     count: 12
   }
+];
+
+export const cameroonCities = [
+  'Douala', 'Yaoundé', 'Bafoussam', 'Bamenda', 'Garoua', 'Maroua',
+  'Ngaoundéré', 'Bertoua', 'Ebolowa', 'Kribi', 'Limbe', 'Buea',
+  'Kumba', 'Edéa', 'Foumban', 'Mbalmayo', 'Sangmélima', 'Dschang'
 ];
 
 export const mockEvents = [
@@ -76,7 +82,7 @@ export const mockEvents = [
       coordinates: { lat: 4.0511, lng: 9.7679 }
     },
     category: 'Concerts',
-    price: { min: 15, max: 35 },
+    price: { min: 15000, max: 35000 },
     images: ['/placeholder.svg'],
     organizer: {
       name: 'EventPro Cameroun',
@@ -103,7 +109,7 @@ export const mockEvents = [
       coordinates: { lat: 4.0123, lng: 9.7321 }
     },
     category: 'Concerts',
-    price: { min: 10, max: 25 },
+    price: { min: 10000, max: 25000 },
     images: ['/placeholder.svg'],
     organizer: {
       name: 'Cultural Heritage',
@@ -115,6 +121,33 @@ export const mockEvents = [
     status: 'upcoming' as const,
     featured: true,
     tags: ['makossa', 'tradition', 'festival']
+  },
+  {
+    id: '11',
+    title: 'Concert Afrobeat Live',
+    shortDescription: 'Soirée afrobeat avec les meilleurs artistes',
+    fullDescription: 'Une soirée exceptionnelle dédiée à l\'afrobeat avec des artistes renommés du continent africain.',
+    date: '2025-04-18',
+    time: '19:30',
+    location: {
+      venue: 'Salle des Fêtes de Bonapriso',
+      address: 'Bonapriso',
+      city: 'Douala',
+      coordinates: { lat: 4.0600, lng: 9.7000 }
+    },
+    category: 'Concerts',
+    price: { min: 12000, max: 30000 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Afro Music Events',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 400,
+    capacity: 500,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['afrobeat', 'musique', 'live']
   },
 
   // Conférences
@@ -132,7 +165,7 @@ export const mockEvents = [
       coordinates: { lat: 3.8480, lng: 11.5021 }
     },
     category: 'Conférences',
-    price: { min: 50, max: 150 },
+    price: { min: 50000, max: 150000 },
     images: ['/placeholder.svg'],
     organizer: {
       name: 'Tech Events CM',
@@ -159,7 +192,7 @@ export const mockEvents = [
       coordinates: { lat: 5.4765, lng: 10.4173 }
     },
     category: 'Conférences',
-    price: { min: 20, max: 40 },
+    price: { min: 20000, max: 40000 },
     images: ['/placeholder.svg'],
     organizer: {
       name: 'Women in Business CM',
@@ -171,6 +204,33 @@ export const mockEvents = [
     status: 'upcoming' as const,
     featured: false,
     tags: ['entrepreneuriat', 'femmes', 'business']
+  },
+  {
+    id: '12',
+    title: 'Conférence Intelligence Artificielle',
+    shortDescription: 'L\'avenir de l\'IA en Afrique',
+    fullDescription: 'Une conférence dédiée aux développements de l\'intelligence artificielle et son impact sur le continent africain.',
+    date: '2025-05-22',
+    time: '14:00',
+    location: {
+      venue: 'Université de Douala',
+      address: 'Campus Universitaire',
+      city: 'Douala',
+      coordinates: { lat: 4.0700, lng: 9.7400 }
+    },
+    category: 'Conférences',
+    price: { min: 25000, max: 60000 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'AI Research Group',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 180,
+    capacity: 220,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['intelligence artificielle', 'technologie', 'recherche']
   },
 
   // Business
@@ -188,7 +248,7 @@ export const mockEvents = [
       coordinates: { lat: 4.0469, lng: 9.7070 }
     },
     category: 'Business',
-    price: { min: 75, max: 200 },
+    price: { min: 75000, max: 200000 },
     images: ['/placeholder.svg'],
     organizer: {
       name: 'Business Angels CM',
@@ -200,6 +260,33 @@ export const mockEvents = [
     status: 'upcoming' as const,
     featured: false,
     tags: ['investissement', 'startup', 'financement']
+  },
+  {
+    id: '13',
+    title: 'Salon des PME Camerounaises',
+    shortDescription: 'Exposition et networking pour les PME',
+    fullDescription: 'Un salon dédié aux petites et moyennes entreprises camerounaises avec des opportunités de partenariat et d\'expansion.',
+    date: '2025-06-10',
+    time: '09:00',
+    location: {
+      venue: 'Palais des Congrès',
+      address: 'Centre-ville',
+      city: 'Yaoundé',
+      coordinates: { lat: 3.8570, lng: 11.5120 }
+    },
+    category: 'Business',
+    price: { min: 30000, max: 80000 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Association PME Cameroun',
+      avatar: '/placeholder.svg',
+      verified: false
+    },
+    attendees: 300,
+    capacity: 400,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['pme', 'exposition', 'partenariat']
   },
 
   // Art & Culture
@@ -217,7 +304,7 @@ export const mockEvents = [
       coordinates: { lat: 4.0600, lng: 9.7000 }
     },
     category: 'Art & Culture',
-    price: { min: 5, max: 15 },
+    price: { min: 5000, max: 15000 },
     images: ['/placeholder.svg'],
     organizer: {
       name: 'Galerie Moderne',
@@ -229,6 +316,33 @@ export const mockEvents = [
     status: 'upcoming' as const,
     featured: false,
     tags: ['art', 'exposition', 'culture']
+  },
+  {
+    id: '14',
+    title: 'Festival des Arts Traditionnels',
+    shortDescription: 'Célébration des arts traditionnels camerounais',
+    fullDescription: 'Un festival mettant en valeur les arts traditionnels du Cameroun avec des artisans, danseurs et musiciens.',
+    date: '2025-07-14',
+    time: '15:00',
+    location: {
+      venue: 'Place des Fêtes',
+      address: 'Centre-ville',
+      city: 'Bafoussam',
+      coordinates: { lat: 5.4800, lng: 10.4200 }
+    },
+    category: 'Art & Culture',
+    price: { min: 8000, max: 20000 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Heritage Culturel',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 600,
+    capacity: 800,
+    status: 'upcoming' as const,
+    featured: true,
+    tags: ['tradition', 'artisanat', 'culture']
   },
 
   // Gastronomie
@@ -246,7 +360,7 @@ export const mockEvents = [
       coordinates: { lat: 4.0400, lng: 9.7200 }
     },
     category: 'Gastronomie',
-    price: { min: 25, max: 50 },
+    price: { min: 25000, max: 50000 },
     images: ['/placeholder.svg'],
     organizer: {
       name: 'Chefs Unis CM',
@@ -258,6 +372,33 @@ export const mockEvents = [
     status: 'upcoming' as const,
     featured: false,
     tags: ['cuisine', 'gastronomie', 'tradition']
+  },
+  {
+    id: '15',
+    title: 'Atelier Cuisine Traditionnelle',
+    shortDescription: 'Apprendre la cuisine camerounaise authentique',
+    fullDescription: 'Un atelier pratique pour apprendre à préparer les plats traditionnels camerounais avec des chefs expérimentés.',
+    date: '2025-03-30',
+    time: '10:00',
+    location: {
+      venue: 'École Culinaire de Douala',
+      address: 'Akwa',
+      city: 'Douala',
+      coordinates: { lat: 4.0520, lng: 9.7650 }
+    },
+    category: 'Gastronomie',
+    price: { min: 35000, max: 65000 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'École Culinaire CM',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 40,
+    capacity: 50,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['atelier', 'cuisine', 'formation']
   },
 
   // Networking
@@ -275,7 +416,7 @@ export const mockEvents = [
       coordinates: { lat: 4.0489, lng: 9.7654 }
     },
     category: 'Networking',
-    price: { min: 15, max: 30 },
+    price: { min: 15000, max: 30000 },
     images: ['/placeholder.svg'],
     organizer: {
       name: 'Professional Network CM',
@@ -304,7 +445,7 @@ export const mockEvents = [
       coordinates: { lat: 3.8667, lng: 11.5167 }
     },
     category: 'Gaming',
-    price: { min: 10, max: 25 },
+    price: { min: 10000, max: 25000 },
     images: ['/placeholder.svg'],
     organizer: {
       name: 'Gaming Club CM',
@@ -333,7 +474,7 @@ export const mockEvents = [
       coordinates: { lat: 4.0520, lng: 9.6950 }
     },
     category: 'Photographie',
-    price: { min: 40, max: 80 },
+    price: { min: 40000, max: 80000 },
     images: ['/placeholder.svg'],
     organizer: {
       name: 'Photo Academy',
