@@ -33,17 +33,17 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-red-900 via-red-800 to-orange-900 overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-gray-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+          <div className="absolute top-20 left-20 w-72 h-72 bg-red-500/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4 py-16">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
             Découvrez des événements
-            <span className="bg-gradient-to-r from-blue-400 to-gray-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
               {' '}extraordinaires
             </span>
           </h1>
@@ -76,7 +76,7 @@ const Home = () => {
                   ))}
                 </select>
               </div>
-              <Button size="lg" className="h-12 px-8 bg-gradient-to-r from-blue-500 to-gray-500 hover:from-blue-600 hover:to-gray-600">
+              <Button size="lg" className="h-12 px-8 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600">
                 <Search className="mr-2 h-5 w-5" />
                 Rechercher
               </Button>
@@ -199,12 +199,12 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-gray-600">
+      <section className="py-16 bg-gradient-to-r from-red-600 to-orange-600">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Prêt à créer votre propre événement ?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-red-100 mb-8 max-w-2xl mx-auto">
             Rejoignez des centaines d'organisateurs qui font confiance à EventWave pour créer des expériences mémorables à Douala
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

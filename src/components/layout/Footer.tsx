@@ -13,10 +13,12 @@ const Footer = () => {
           {/* Logo et Description */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">E</span>
-              </div>
-              <span className="font-bold text-xl bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+              <img 
+                src="/lovable-uploads/a191384a-7740-40c9-9591-19169c81e086.png" 
+                alt="EventWave Logo" 
+                className="h-8 w-auto"
+              />
+              <span className="font-bold text-xl bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">
                 EventWave
               </span>
             </Link>
