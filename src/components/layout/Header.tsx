@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Menu, X, User, Bell, Heart, Calendar, Settings } from 'lucide-react';
+import { Search, Menu, X, User, Bell, Heart, Calendar, Settings, LogIn, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -18,6 +18,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
+  const isLoggedIn = false; // This will be managed by auth context later
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -34,10 +35,10 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-center">
               <span className="text-white font-bold text-lg">E</span>
             </div>
-            <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="font-bold text-xl bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
               EventWave
             </span>
           </Link>
@@ -77,87 +78,106 @@ const Header = () => {
               <Search className="h-5 w-5" />
             </Button>
 
-            {/* Notifications */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative">
-                  <Bell className="h-5 w-5" />
-                  <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center text-xs p-0">
-                    3
-                  </Badge>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-80">
-                <div className="p-4">
-                  <h3 className="font-semibold mb-2">Notifications</h3>
-                  <div className="space-y-2">
-                    <div className="p-2 bg-muted rounded-lg">
-                      <p className="text-sm">Votre événement "Jazz Festival" commence dans 2 jours</p>
+            {isLoggedIn ? (
+              <>
+                {/* Notifications */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="relative">
+                      <Bell className="h-5 w-5" />
+                      <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center text-xs p-0">
+                        3
+                      </Badge>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-80">
+                    <div className="p-4">
+                      <h3 className="font-semibold mb-2">Notifications</h3>
+                      <div className="space-y-2">
+                        <div className="p-2 bg-muted rounded-lg">
+                          <p className="text-sm">Votre événement "Concert Jazz" commence dans 2 jours</p>
+                        </div>
+                        <div className="p-2 rounded-lg">
+                          <p className="text-sm">Nouveau message de l'organisateur</p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="p-2 rounded-lg">
-                      <p className="text-sm">Nouveau message de l'organisateur</p>
-                    </div>
-                  </div>
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  </DropdownMenuContent>
+                </DropdownMenu>
 
-            {/* Favorites */}
-            <Button variant="ghost" size="icon">
-              <Heart className="h-5 w-5" />
-            </Button>
-
-            {/* Create Event */}
-            <Link to="/create-event">
-              <Button className="hidden sm:flex">
-                Créer un événement
-              </Button>
-            </Link>
-
-            {/* User Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                  <Avatar className="h-10 w-10">
-                    <AvatarImage src="https://images.unsplash.com/photo-1494790108755-2616c96f4b8a?w=150" />
-                    <AvatarFallback>MD</AvatarFallback>
-                  </Avatar>
+                {/* Favorites */}
+                <Button variant="ghost" size="icon">
+                  <Heart className="h-5 w-5" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <div className="flex items-center justify-start gap-2 p-2">
-                  <div className="flex flex-col space-y-1 leading-none">
-                    <p className="font-medium">Marie Dubois</p>
-                    <p className="w-[200px] truncate text-sm text-muted-foreground">
-                      marie.dubois@example.com
-                    </p>
-                  </div>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link to="/profile" className="flex items-center">
-                    <User className="mr-2 h-4 w-4" />
-                    Mon Profil
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/my-events" className="flex items-center">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    Mes Événements
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/dashboard" className="flex items-center">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Dashboard
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  Se déconnecter
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+
+                {/* Create Event */}
+                <Link to="/create-event">
+                  <Button className="hidden sm:flex">
+                    Créer un événement
+                  </Button>
+                </Link>
+
+                {/* User Menu */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src="https://images.unsplash.com/photo-1494790108755-2616c96f4b8a?w=150" />
+                        <AvatarFallback>MD</AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="flex items-center justify-start gap-2 p-2">
+                      <div className="flex flex-col space-y-1 leading-none">
+                        <p className="font-medium">Marie Dubois</p>
+                        <p className="w-[200px] truncate text-sm text-muted-foreground">
+                          marie.dubois@example.com
+                        </p>
+                      </div>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile" className="flex items-center">
+                        <User className="mr-2 h-4 w-4" />
+                        Mon Profil
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/my-events" className="flex items-center">
+                        <Calendar className="mr-2 h-4 w-4" />
+                        Mes Événements
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/dashboard" className="flex items-center">
+                        <Settings className="mr-2 h-4 w-4" />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      Se déconnecter
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link to="/login">
+                  <Button variant="ghost" size="sm">
+                    <LogIn className="mr-2 h-4 w-4" />
+                    Connexion
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button size="sm">
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    S'inscrire
+                  </Button>
+                </Link>
+              </div>
+            )}
 
             {/* Mobile Menu */}
             <Button

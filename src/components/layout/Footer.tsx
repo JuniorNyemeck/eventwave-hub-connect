@@ -13,15 +13,15 @@ const Footer = () => {
           {/* Logo et Description */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-center">
                 <span className="text-white font-bold text-lg">E</span>
               </div>
-              <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <span className="font-bold text-xl bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
                 EventWave
               </span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-xs">
-              La plateforme de référence pour découvrir et organiser des événements exceptionnels en France.
+              La plateforme de référence pour découvrir et organiser des événements exceptionnels à Douala, Cameroun.
             </p>
             <div className="flex space-x-3">
               <Button variant="ghost" size="icon">
@@ -76,15 +76,15 @@ const Footer = () => {
             <div className="space-y-2 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>contact@eventwave.fr</span>
+                <span>contact@eventwave.cm</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
-                <span>01 23 45 67 89</span>
+                <span>+237 6 98 97 94 37</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4" />
-                <span>Paris, France</span>
+                <span>Douala, Cameroun</span>
               </div>
             </div>
           </div>
@@ -94,7 +94,7 @@ const Footer = () => {
 
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <div className="text-sm text-muted-foreground">
-            © 2024 EventWave. Tous droits réservés.
+            © 2025 EventWave. Tous droits réservés.
           </div>
           <div className="flex space-x-6 text-sm">
             <Link to="/privacy" className="text-muted-foreground hover:text-primary transition-colors">

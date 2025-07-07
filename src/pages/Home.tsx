@@ -1,13 +1,13 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Calendar, TrendingUp, Users, Star, ArrowRight, Filter } from 'lucide-react';
+import { Search, MapPin, Calendar, TrendingUp, Users, Star, ArrowRight, Music, Mic, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import EventCard from '@/components/events/EventCard';
-import { mockEvents, categories } from '@/data/mockData';
+import { mockEvents } from '@/data/mockData';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,33 +16,39 @@ const Home = () => {
   const featuredEvents = mockEvents.filter(event => event.featured);
   const upcomingEvents = mockEvents.filter(event => event.status === 'upcoming').slice(0, 6);
 
-  const cities = ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice', 'Nantes'];
+  const cities = ['Douala', 'Yaoundé', 'Bafoussam', 'Bamenda', 'Garoua', 'Maroua'];
   const stats = [
-    { label: 'Événements actifs', value: '12,459', icon: Calendar },
-    { label: 'Participants', value: '856K+', icon: Users },
-    { label: 'Organisateurs', value: '2,847', icon: Star },
-    { label: 'Villes', value: '150+', icon: MapPin }
+    { label: 'Événements actifs', value: '1,247', icon: Calendar },
+    { label: 'Participants', value: '45K+', icon: Users },
+    { label: 'Organisateurs', value: '284', icon: Star },
+    { label: 'Villes', value: '15+', icon: MapPin }
+  ];
+
+  const categories = [
+    { id: 'concerts', name: 'Concerts', icon: Music, color: 'bg-blue-100 text-blue-600', count: 124 },
+    { id: 'conferences', name: 'Conférences', icon: Mic, color: 'bg-green-100 text-green-600', count: 89 },
+    { id: 'business', name: 'Business', icon: Briefcase, color: 'bg-purple-100 text-purple-600', count: 67 },
   ];
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/30 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
+          <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
             Découvrez des événements
-            <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               {' '}extraordinaires
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            Participez aux meilleurs événements près de chez vous ou créez vos propres expériences inoubliables
+            Participez aux meilleurs événements à Douala et créez vos propres expériences inoubliables
           </p>
 
           {/* Search Bar */}
@@ -70,7 +76,7 @@ const Home = () => {
                   ))}
                 </select>
               </div>
-              <Button size="lg" className="h-12 px-8 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
+              <Button size="lg" className="h-12 px-8 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600">
                 <Search className="mr-2 h-5 w-5" />
                 Rechercher
               </Button>
@@ -79,13 +85,13 @@ const Home = () => {
 
           {/* Quick Categories */}
           <div className="flex flex-wrap justify-center gap-3">
-            {categories.slice(0, 6).map((category) => (
+            {categories.map((category) => (
               <Link key={category.id} to={`/categories/${category.id}`}>
                 <Badge 
                   variant="secondary" 
                   className="bg-white/20 text-white border-white/30 hover:bg-white/30 transition-colors px-4 py-2 text-sm"
                 >
-                  <span className="mr-2">{category.icon}</span>
+                  <category.icon className="mr-2 h-4 w-4" />
                   {category.name}
                 </Badge>
               </Link>
@@ -143,17 +149,17 @@ const Home = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Explorez par catégorie</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Trouvez exactement ce que vous cherchez parmi nos nombreuses catégories d'événements
+              Trouvez exactement ce que vous cherchez parmi nos catégories d'événements
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {categories.map((category) => (
               <Link key={category.id} to={`/categories/${category.id}`}>
                 <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group border-2 hover:border-primary/50">
                   <CardContent className="p-6 text-center">
-                    <div className={`w-16 h-16 mx-auto mb-4 rounded-full ${category.color} flex items-center justify-center text-2xl group-hover:scale-110 transition-transform`}>
-                      {category.icon}
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-full ${category.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                      <category.icon className="h-8 w-8" />
                     </div>
                     <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
                       {category.name}
@@ -193,13 +199,13 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-purple-600 to-pink-600">
+      <section className="py-16 bg-gradient-to-r from-blue-600 to-cyan-600">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Prêt à créer votre propre événement ?
           </h2>
-          <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
-            Rejoignez des milliers d'organisateurs qui font confiance à EventWave pour créer des expériences mémorables
+          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            Rejoignez des centaines d'organisateurs qui font confiance à EventWave pour créer des expériences mémorables à Douala
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/create-event">
