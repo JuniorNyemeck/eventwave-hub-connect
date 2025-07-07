@@ -8,6 +8,7 @@ import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Discover from "./pages/Discover";
 import Categories from "./pages/Categories";
+import CategoryPage from "./pages/CategoryPage";
 import EventDetail from "./pages/EventDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -15,6 +16,7 @@ import Dashboard from "./pages/Dashboard";
 import CreateEvent from "./pages/CreateEvent";
 import Profile from "./pages/Profile";
 import TicketPurchase from "./pages/TicketPurchase";
+import Organizers from "./pages/Organizers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,8 +32,10 @@ const App = () => (
             <Route index element={<Home />} />
             <Route path="discover" element={<Discover />} />
             <Route path="categories" element={<Categories />} />
+            <Route path="categories/:categoryId" element={<CategoryPage />} />
             <Route path="events/:id" element={<EventDetail />} />
             <Route path="events/:id/tickets" element={<TicketPurchase />} />
+            <Route path="organizers" element={<Organizers />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="create-event" element={<CreateEvent />} />
             <Route path="profile" element={<Profile />} />

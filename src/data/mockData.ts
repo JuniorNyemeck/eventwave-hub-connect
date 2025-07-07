@@ -1,185 +1,349 @@
 
-import { Event, User, Category } from '../types';
+import { Music, Mic, Briefcase, Palette, Utensils, Users, Gamepad2, Camera } from 'lucide-react';
 
-export const categories: Category[] = [
-  { id: '1', name: 'Musique', icon: '🎵', color: 'bg-purple-500', count: 245 },
-  { id: '2', name: 'Sport', icon: '⚽', color: 'bg-green-500', count: 189 },
-  { id: '3', name: 'Art & Culture', icon: '🎨', color: 'bg-pink-500', count: 156 },
-  { id: '4', name: 'Business', icon: '💼', color: 'bg-blue-500', count: 234 },
-  { id: '5', name: 'Technologie', icon: '💻', color: 'bg-indigo-500', count: 123 },
-  { id: '6', name: 'Gastronomie', icon: '🍽️', color: 'bg-orange-500', count: 87 },
-  { id: '7', name: 'Bien-être', icon: '🧘', color: 'bg-teal-500', count: 65 },
-  { id: '8', name: 'Éducation', icon: '📚', color: 'bg-yellow-500', count: 98 }
-];
-
-export const mockEvents: Event[] = [
+export const categories = [
   {
-    id: '1',
-    title: 'Festival de Jazz de Paris',
-    description: 'Un festival exceptionnel réunissant les plus grands noms du jazz international dans un cadre unique au cœur de Paris.',
-    shortDescription: 'Les plus grands noms du jazz se donnent rendez-vous à Paris',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800',
-    date: '2024-08-15',
-    time: '19:00',
-    location: {
-      venue: 'Olympia',
-      address: '28 Boulevard des Capucines',
-      city: 'Paris',
-      coordinates: { lat: 48.8698, lng: 2.3316 }
-    },
-    category: 'Musique',
-    price: { min: 45, max: 120, currency: 'EUR' },
-    organizer: {
-      id: '1',
-      name: 'Jazz Events Paris',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
-      rating: 4.8,
-      verified: true
-    },
-    capacity: 2000,
-    attendees: 1456,
-    tags: ['jazz', 'musique', 'paris', 'festival'],
-    featured: true,
-    status: 'upcoming',
-    tickets: [
-      {
-        id: '1',
-        name: 'Standard',
-        price: 45,
-        description: 'Accès général',
-        quantity: 1000,
-        sold: 756,
-        benefits: ['Accès à la salle', 'Programme officiel']
-      },
-      {
-        id: '2',
-        name: 'VIP',
-        price: 120,
-        description: 'Accès premium avec avantages',
-        quantity: 200,
-        sold: 145,
-        benefits: ['Accès VIP', 'Meet & Greet', 'Boissons incluses', 'Parking gratuit']
-      }
-    ]
+    id: 'concerts',
+    name: 'Concerts',
+    icon: <Music className="h-5 w-5" />,
+    color: 'bg-blue-100 text-blue-600',
+    count: 45
   },
   {
-    id: '2',
-    title: 'Marathon de Lyon',
-    description: 'Participez au plus grand marathon de la région Rhône-Alpes avec un parcours spectaculaire à travers la ville.',
-    shortDescription: 'Course emblématique de 42km à travers Lyon',
-    image: 'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800',
-    date: '2024-09-22',
-    time: '08:00',
-    location: {
-      venue: 'Place Bellecour',
-      address: 'Place Bellecour',
-      city: 'Lyon'
-    },
-    category: 'Sport',
-    price: { min: 25, max: 60, currency: 'EUR' },
-    organizer: {
-      id: '2',
-      name: 'Lyon Sports Events',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-      rating: 4.6,
-      verified: true
-    },
-    capacity: 5000,
-    attendees: 3245,
-    tags: ['marathon', 'course', 'sport', 'lyon'],
-    featured: true,
-    status: 'upcoming',
-    tickets: [
-      {
-        id: '3',
-        name: 'Marathon',
-        price: 60,
-        description: 'Course complète 42km',
-        quantity: 3000,
-        sold: 2156,
-        benefits: ['Dossard officiel', 'T-shirt technique', 'Médaille', 'Ravitaillement']
-      },
-      {
-        id: '4',
-        name: 'Semi-Marathon',
-        price: 35,
-        description: 'Course 21km',
-        quantity: 2000,
-        sold: 1089,
-        benefits: ['Dossard officiel', 'T-shirt', 'Médaille']
-      }
-    ]
+    id: 'conferences',
+    name: 'Conférences',
+    icon: <Mic className="h-5 w-5" />,
+    color: 'bg-green-100 text-green-600',
+    count: 32
   },
   {
-    id: '3',
-    title: 'Conférence Tech Innovation',
-    description: 'Découvrez les dernières innovations technologiques avec des experts de renommée mondiale.',
-    shortDescription: 'Les dernières innovations tech par des experts mondiaux',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800',
-    date: '2024-10-10',
-    time: '09:00',
-    location: {
-      venue: 'Palais des Congrès',
-      address: '2 Place de la Porte Maillot',
-      city: 'Paris'
-    },
-    category: 'Technologie',
-    price: { min: 89, max: 299, currency: 'EUR' },
-    organizer: {
-      id: '3',
-      name: 'TechEvents France',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616c96f4b8a?w=150',
-      rating: 4.9,
-      verified: true
-    },
-    capacity: 800,
-    attendees: 567,
-    tags: ['technologie', 'innovation', 'conférence', 'ai'],
-    featured: false,
-    status: 'upcoming',
-    tickets: [
-      {
-        id: '5',
-        name: 'Early Bird',
-        price: 89,
-        description: 'Tarif préférentiel',
-        quantity: 200,
-        sold: 200,
-        benefits: ['Accès conférence', 'Petit-déjeuner', 'Networking']
-      },
-      {
-        id: '6',
-        name: 'Standard',
-        price: 149,
-        description: 'Accès complet',
-        quantity: 400,
-        sold: 245,
-        benefits: ['Accès conférence', 'Déjeuner', 'Networking', 'Support cours']
-      },
-      {
-        id: '7',
-        name: 'Premium',
-        price: 299,
-        description: 'Expérience complète',
-        quantity: 200,
-        sold: 122,
-        benefits: ['Accès VIP', 'Tous repas', 'Meet speakers', 'Certificat', 'Goodies']
-      }
-    ]
+    id: 'business',
+    name: 'Business',
+    icon: <Briefcase className="h-5 w-5" />,
+    color: 'bg-purple-100 text-purple-600',
+    count: 28
+  },
+  {
+    id: 'art',
+    name: 'Art & Culture',
+    icon: <Palette className="h-5 w-5" />,
+    color: 'bg-pink-100 text-pink-600',
+    count: 24
+  },
+  {
+    id: 'food',
+    name: 'Gastronomie',
+    icon: <Utensils className="h-5 w-5" />,
+    color: 'bg-orange-100 text-orange-600',
+    count: 18
+  },
+  {
+    id: 'networking',
+    name: 'Networking',
+    icon: <Users className="h-5 w-5" />,
+    color: 'bg-cyan-100 text-cyan-600',
+    count: 21
+  },
+  {
+    id: 'gaming',
+    name: 'Gaming',
+    icon: <Gamepad2 className="h-5 w-5" />,
+    color: 'bg-red-100 text-red-600',
+    count: 15
+  },
+  {
+    id: 'photography',
+    name: 'Photographie',
+    icon: <Camera className="h-5 w-5" />,
+    color: 'bg-yellow-100 text-yellow-600',
+    count: 12
   }
 ];
 
-export const mockUser: User = {
-  id: '1',
-  name: 'Marie Dubois',
-  email: 'marie.dubois@example.com',
-  avatar: 'https://images.unsplash.com/photo-1494790108755-2616c96f4b8a?w=150',
-  bio: 'Passionnée d\'événements culturels et sportifs',
-  location: 'Paris, France',
-  interests: ['Musique', 'Sport', 'Art & Culture'],
-  eventsAttended: 23,
-  eventsOrganized: 3,
-  rating: 4.7,
-  verified: true,
-  role: 'user'
-};
+export const mockEvents = [
+  // Concerts
+  {
+    id: '1',
+    title: 'Concert Jazz Fusion Night',
+    shortDescription: 'Une soirée jazz exceptionnelle avec les meilleurs musiciens du Cameroun',
+    fullDescription: 'Rejoignez-nous pour une soirée jazz inoubliable mettant en vedette les talents locaux et internationaux. Une expérience musicale unique dans le cadre magnifique du Centre Culturel de Douala.',
+    date: '2025-02-15',
+    time: '20:00',
+    location: {
+      venue: 'Centre Culturel de Douala',
+      address: 'Rue de la Liberté, Akwa',
+      city: 'Douala',
+      coordinates: { lat: 4.0511, lng: 9.7679 }
+    },
+    category: 'Concerts',
+    price: { min: 15, max: 35 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'EventPro Cameroun',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 250,
+    capacity: 300,
+    status: 'upcoming' as const,
+    featured: true,
+    tags: ['jazz', 'musique', 'culture']
+  },
+  {
+    id: '2',
+    title: 'Festival Makossa Revival',
+    shortDescription: 'Célébration de la musique makossa traditionnelle',
+    fullDescription: 'Un festival dédié à la musique makossa, patrimoine musical du Cameroun, avec des artistes légendaires et de nouvelles générations.',
+    date: '2025-03-20',
+    time: '18:00',
+    location: {
+      venue: 'Palais des Sports',
+      address: 'Makepe',
+      city: 'Douala',
+      coordinates: { lat: 4.0123, lng: 9.7321 }
+    },
+    category: 'Concerts',
+    price: { min: 10, max: 25 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Cultural Heritage',
+      avatar: '/placeholder.svg',
+      verified: false
+    },
+    attendees: 800,
+    capacity: 1000,
+    status: 'upcoming' as const,
+    featured: true,
+    tags: ['makossa', 'tradition', 'festival']
+  },
+
+  // Conférences
+  {
+    id: '3',
+    title: 'Tech Summit Cameroun 2025',
+    shortDescription: 'Le plus grand événement technologique du Cameroun',
+    fullDescription: 'Trois jours de conférences, ateliers et networking pour découvrir les dernières innovations technologiques et rencontrer les leaders du secteur.',
+    date: '2025-04-10',
+    time: '09:00',
+    location: {
+      venue: 'Hôtel Hilton Yaoundé',
+      address: 'Boulevard du 20 Mai',
+      city: 'Yaoundé',
+      coordinates: { lat: 3.8480, lng: 11.5021 }
+    },
+    category: 'Conférences',
+    price: { min: 50, max: 150 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Tech Events CM',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 500,
+    capacity: 600,
+    status: 'upcoming' as const,
+    featured: true,
+    tags: ['technologie', 'innovation', 'startup']
+  },
+  {
+    id: '4',
+    title: 'Conférence Entrepreneuriat Féminin',
+    shortDescription: 'Autonomisation des femmes entrepreneures',
+    fullDescription: 'Une journée dédiée aux femmes entrepreneures avec des témoignages inspirants, des ateliers pratiques et des opportunités de networking.',
+    date: '2025-03-08',
+    time: '10:00',
+    location: {
+      venue: 'Centre de Conférences de Bafoussam',
+      address: 'Avenue de la Réunification',
+      city: 'Bafoussam',
+      coordinates: { lat: 5.4765, lng: 10.4173 }
+    },
+    category: 'Conférences',
+    price: { min: 20, max: 40 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Women in Business CM',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 200,
+    capacity: 250,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['entrepreneuriat', 'femmes', 'business']
+  },
+
+  // Business
+  {
+    id: '5',
+    title: 'Forum des Investisseurs',
+    shortDescription: 'Rencontre entre entrepreneurs et investisseurs',
+    fullDescription: 'Un forum exclusif pour connecter les entrepreneurs avec des investisseurs potentiels, avec des sessions de pitch et de networking.',
+    date: '2025-05-15',
+    time: '14:00',
+    location: {
+      venue: 'Chambre de Commerce de Douala',
+      address: 'Place du Gouvernement',
+      city: 'Douala',
+      coordinates: { lat: 4.0469, lng: 9.7070 }
+    },
+    category: 'Business',
+    price: { min: 75, max: 200 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Business Angels CM',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 150,
+    capacity: 200,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['investissement', 'startup', 'financement']
+  },
+
+  // Art & Culture
+  {
+    id: '6',
+    title: 'Exposition Art Contemporain Africain',
+    shortDescription: 'Découverte de l\'art contemporain africain',
+    fullDescription: 'Une exposition unique présentant les œuvres d\'artistes contemporains africains émergents et établis.',
+    date: '2025-02-28',
+    time: '16:00',
+    location: {
+      venue: 'Galerie d\'Art Moderne',
+      address: 'Quartier Bonapriso',
+      city: 'Douala',
+      coordinates: { lat: 4.0600, lng: 9.7000 }
+    },
+    category: 'Art & Culture',
+    price: { min: 5, max: 15 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Galerie Moderne',
+      avatar: '/placeholder.svg',
+      verified: false
+    },
+    attendees: 300,
+    capacity: 400,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['art', 'exposition', 'culture']
+  },
+
+  // Gastronomie
+  {
+    id: '7',
+    title: 'Festival Gastronomique Camerounais',
+    shortDescription: 'Célébration de la cuisine camerounaise',
+    fullDescription: 'Un festival culinaire mettant en avant la richesse de la gastronomie camerounaise avec des chefs renommés.',
+    date: '2025-04-25',
+    time: '12:00',
+    location: {
+      venue: 'Parc de la Douala',
+      address: 'Boulevard de la Liberté',
+      city: 'Douala',
+      coordinates: { lat: 4.0400, lng: 9.7200 }
+    },
+    category: 'Gastronomie',
+    price: { min: 25, max: 50 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Chefs Unis CM',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 600,
+    capacity: 800,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['cuisine', 'gastronomie', 'tradition']
+  },
+
+  // Networking
+  {
+    id: '8',
+    title: 'Networking Professionals Douala',
+    shortDescription: 'Rencontre mensuelle des professionnels',
+    fullDescription: 'Un événement mensuel de networking pour les professionnels de tous secteurs à Douala.',
+    date: '2025-02-20',
+    time: '18:30',
+    location: {
+      venue: 'Hôtel Akwa Palace',
+      address: 'Boulevard de la Liberté',
+      city: 'Douala',
+      coordinates: { lat: 4.0489, lng: 9.7654 }
+    },
+    category: 'Networking',
+    price: { min: 15, max: 30 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Professional Network CM',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 120,
+    capacity: 150,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['networking', 'professionnel', 'business']
+  },
+
+  // Gaming
+  {
+    id: '9',
+    title: 'Tournoi E-Sports Cameroun',
+    shortDescription: 'Compétition de jeux vidéo nationale',
+    fullDescription: 'Le plus grand tournoi de jeux vidéo du Cameroun avec des prix en espèces et des sponsors internationaux.',
+    date: '2025-06-15',
+    time: '10:00',
+    location: {
+      venue: 'Centre Multisport de Yaoundé',
+      address: 'Quartier Mfandena',
+      city: 'Yaoundé',
+      coordinates: { lat: 3.8667, lng: 11.5167 }
+    },
+    category: 'Gaming',
+    price: { min: 10, max: 25 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Gaming Club CM',
+      avatar: '/placeholder.svg',
+      verified: false
+    },
+    attendees: 300,
+    capacity: 400,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['gaming', 'esports', 'compétition']
+  },
+
+  // Photographie
+  {
+    id: '10',
+    title: 'Workshop Photographie de Portrait',
+    shortDescription: 'Atelier de photographie avec un professionnel',
+    fullDescription: 'Un atelier intensif de photographie de portrait avec un photographe professionnel reconnu.',
+    date: '2025-03-12',
+    time: '14:00',
+    location: {
+      venue: 'Studio Photo Lumière',
+      address: 'Rue des Arts, Bonanjo',
+      city: 'Douala',
+      coordinates: { lat: 4.0520, lng: 9.6950 }
+    },
+    category: 'Photographie',
+    price: { min: 40, max: 80 },
+    images: ['/placeholder.svg'],
+    organizer: {
+      name: 'Photo Academy',
+      avatar: '/placeholder.svg',
+      verified: true
+    },
+    attendees: 25,
+    capacity: 30,
+    status: 'upcoming' as const,
+    featured: false,
+    tags: ['photographie', 'portrait', 'formation']
+  }
+];

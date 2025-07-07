@@ -1,13 +1,13 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, MapPin, Calendar, TrendingUp, Users, Star, ArrowRight, Music, Mic, Briefcase } from 'lucide-react';
+import { Search, MapPin, Calendar, TrendingUp, Users, Star, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import EventCard from '@/components/events/EventCard';
-import { mockEvents } from '@/data/mockData';
+import { mockEvents, categories } from '@/data/mockData';
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,7 +16,11 @@ const Home = () => {
   const featuredEvents = mockEvents.filter(event => event.featured);
   const upcomingEvents = mockEvents.filter(event => event.status === 'upcoming').slice(0, 6);
 
-  const cities = ['Douala', 'Yaoundé', 'Bafoussam', 'Bamenda', 'Garoua', 'Maroua'];
+  const cameroonCities = [
+    'Douala', 'Yaoundé', 'Bafoussam', 'Bamenda', 'Garoua', 'Maroua',
+    'Ngaoundéré', 'Bertoua', 'Ebolowa', 'Kribi', 'Limbe', 'Buea'
+  ];
+
   const stats = [
     { label: 'Événements actifs', value: '1,247', icon: Calendar },
     { label: 'Participants', value: '45K+', icon: Users },
@@ -24,26 +28,22 @@ const Home = () => {
     { label: 'Villes', value: '15+', icon: MapPin }
   ];
 
-  const categories = [
-    { id: 'concerts', name: 'Concerts', icon: Music, color: 'bg-blue-100 text-blue-600', count: 124 },
-    { id: 'conferences', name: 'Conférences', icon: Mic, color: 'bg-green-100 text-green-600', count: 89 },
-    { id: 'business', name: 'Business', icon: Briefcase, color: 'bg-purple-100 text-purple-600', count: 67 },
-  ];
+  const quickCategories = categories.slice(0, 3);
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 overflow-hidden">
+      <section className="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-gray-900 overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-gray-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
         
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
+        <div className="relative z-10 text-center max-w-4xl mx-auto px-4 py-12">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
             Découvrez des événements
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 to-gray-400 bg-clip-text text-transparent">
               {' '}extraordinaires
             </span>
           </h1>
@@ -71,12 +71,12 @@ const Home = () => {
                   className="w-full pl-12 pr-4 h-12 bg-white/20 border border-white/30 rounded-lg text-white appearance-none cursor-pointer"
                 >
                   <option value="">Toutes les villes</option>
-                  {cities.map(city => (
+                  {cameroonCities.map(city => (
                     <option key={city} value={city} className="text-black">{city}</option>
                   ))}
                 </select>
               </div>
-              <Button size="lg" className="h-12 px-8 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600">
+              <Button size="lg" className="h-12 px-8 bg-gradient-to-r from-blue-500 to-gray-500 hover:from-blue-600 hover:to-gray-600">
                 <Search className="mr-2 h-5 w-5" />
                 Rechercher
               </Button>
@@ -85,14 +85,14 @@ const Home = () => {
 
           {/* Quick Categories */}
           <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((category) => (
+            {quickCategories.map((category) => (
               <Link key={category.id} to={`/categories/${category.id}`}>
                 <Badge 
                   variant="secondary" 
                   className="bg-white/20 text-white border-white/30 hover:bg-white/30 transition-colors px-4 py-2 text-sm"
                 >
-                  <category.icon className="mr-2 h-4 w-4" />
-                  {category.name}
+                  {category.icon}
+                  <span className="ml-2">{category.name}</span>
                 </Badge>
               </Link>
             ))}
@@ -153,13 +153,13 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((category) => (
               <Link key={category.id} to={`/categories/${category.id}`}>
                 <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group border-2 hover:border-primary/50">
                   <CardContent className="p-6 text-center">
                     <div className={`w-16 h-16 mx-auto mb-4 rounded-full ${category.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                      <category.icon className="h-8 w-8" />
+                      {category.icon}
                     </div>
                     <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
                       {category.name}
@@ -199,7 +199,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-cyan-600">
+      <section className="py-16 bg-gradient-to-r from-blue-600 to-gray-600">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Prêt à créer votre propre événement ?

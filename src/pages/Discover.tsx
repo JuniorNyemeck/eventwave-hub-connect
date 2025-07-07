@@ -22,7 +22,11 @@ const Discover = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
 
-  const cities = Array.from(new Set(mockEvents.map(event => event.location.city)));
+  const cameroonCities = [
+    'Douala', 'Yaoundé', 'Bafoussam', 'Bamenda', 'Garoua', 'Maroua',
+    'Ngaoundéré', 'Bertoua', 'Ebolowa', 'Kribi', 'Limbe', 'Buea'
+  ];
+
   const sortOptions = [
     { value: 'relevance', label: 'Pertinence' },
     { value: 'date-asc', label: 'Date (plus proche)' },
@@ -176,7 +180,7 @@ const Discover = () => {
       <div className="space-y-3">
         <label className="text-sm font-medium">Villes</label>
         <div className="space-y-2">
-          {cities.map((city) => (
+          {cameroonCities.map((city) => (
             <div key={city} className="flex items-center space-x-2">
               <Checkbox
                 id={city}
@@ -315,7 +319,7 @@ const Discover = () => {
                     ))}
                     {selectedCities.map(city => (
                       <Badge key={city} variant="secondary">
-                        📍 {city}
+                        {city}
                       </Badge>
                     ))}
                   </div>
