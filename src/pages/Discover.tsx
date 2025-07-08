@@ -201,7 +201,7 @@ const Discover = () => {
       {/* Price Range */}
       <div className="space-y-3">
         <label className="text-sm font-medium">
-          Fourchette de prix: {priceRange[0]}€ - {priceRange[1]}€
+          Fourchette de prix: {priceRange[0]} CFA - {priceRange[1]} CFA
         </label>
         <Slider
           value={priceRange}

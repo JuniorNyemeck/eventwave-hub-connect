@@ -16,6 +16,7 @@ import Dashboard from "./pages/Dashboard";
 import CreateEvent from "./pages/CreateEvent";
 import Profile from "./pages/Profile";
 import TicketPurchase from "./pages/TicketPurchase";
+import TicketView from "./pages/TicketView";
 import Organizers from "./pages/Organizers";
 import NotFound from "./pages/NotFound";
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="categories/:categoryId" element={<CategoryPage />} />
             <Route path="events/:id" element={<EventDetail />} />
             <Route path="events/:id/tickets" element={<TicketPurchase />} />
+            <Route path="ticket/:ticketId" element={<TicketView />} />
             <Route path="organizers" element={<Organizers />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="create-event" element={<CreateEvent />} />

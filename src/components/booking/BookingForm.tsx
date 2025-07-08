@@ -88,23 +88,17 @@ const BookingForm = ({ selectedTickets, totalPrice, onClose }: BookingFormProps)
   };
 
   const generateTicketPDF = (ticketId: string) => {
-    // Simulation de génération PDF
-    console.log('Génération du ticket PDF pour:', ticketId);
-    
-    // Ici on pourrait intégrer une vraie librairie PDF comme jsPDF
     const ticketData = {
       id: ticketId,
-      event: event?.title,
-      date: event?.date,
-      time: event?.time,
-      venue: event?.location.venue,
-      customer: `${customerInfo.firstName} ${customerInfo.lastName}`,
+      event: event!,
+      customerName: `${customerInfo.firstName} ${customerInfo.lastName}`,
       tickets: selectedTickets,
-      total: totalPrice,
-      qrCode: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${ticketId}`
+      totalPrice: totalPrice,
+      purchaseDate: new Date().toISOString(),
+      customer: `${customerInfo.firstName} ${customerInfo.lastName}`
     };
     
-    // Stocker dans localStorage pour l'exemple
+    // Stocker dans localStorage pour l'accès depuis la page ticket
     localStorage.setItem(`ticket-${ticketId}`, JSON.stringify(ticketData));
   };
 
