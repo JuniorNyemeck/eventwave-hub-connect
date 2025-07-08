@@ -164,7 +164,7 @@ const Discover = () => {
                 onCheckedChange={() => handleCategoryToggle(category.name)}
               />
               <label htmlFor={category.id} className="text-sm flex items-center cursor-pointer">
-                <span className="mr-2"><category.icon className="h-4 w-4" /></span>
+                <span className="mr-2"><category.icon size={16} /></span>
                 {category.name}
                 <Badge variant="secondary" className="ml-2">
                   {category.count}

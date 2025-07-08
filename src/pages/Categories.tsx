@@ -75,8 +75,8 @@ const Categories = () => {
             return (
               <Card key={category.id} className="group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/50">
                 <CardHeader className="text-center pb-4">
-                  <div className={`w-20 h-20 mx-auto mb-4 rounded-full ${category.color} flex items-center justify-center text-3xl group-hover:scale-110 transition-transform`}>
-                    <IconComponent className="h-8 w-8" />
+                  <div className={`w-20 h-20 mx-auto mb-4 rounded-full ${category.color} flex items-center justify-center text-3xl group-hover:scale-110 transition-transform text-white`}>
+                    <IconComponent size={32} />
                   </div>
                   <CardTitle className="text-xl group-hover:text-primary transition-colors">
                     {category.name}
@@ -129,8 +129,8 @@ const Categories = () => {
               <div key={category.id}>
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center space-x-3">
-                    <div className={`w-10 h-10 rounded-full ${category.color} flex items-center justify-center text-lg`}>
-                      <IconComponent className="h-5 w-5" />
+                    <div className={`w-10 h-10 rounded-full ${category.color} flex items-center justify-center text-lg text-white`}>
+                      <IconComponent size={20} />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold">{category.name}</h3>
@@ -177,8 +177,8 @@ const Categories = () => {
                   <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group h-full">
                     <CardContent className="p-6 text-center h-full flex flex-col justify-between">
                       <div>
-                        <div className={`w-12 h-12 mx-auto mb-3 rounded-full ${category.color} flex items-center justify-center text-xl group-hover:scale-110 transition-transform`}>
-                          <IconComponent className="h-6 w-6" />
+                        <div className={`w-12 h-12 mx-auto mb-3 rounded-full ${category.color} flex items-center justify-center text-xl group-hover:scale-110 transition-transform text-white`}>
+                          <IconComponent size={24} />
                         </div>
                         <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
                           {category.name}

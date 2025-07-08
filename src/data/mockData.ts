@@ -2,7 +2,7 @@ import { Event, Category } from '@/types';
 import { 
   LayoutDashboard, Calendar, GraduationCap, Users, ShoppingCart, 
   BarChart, Music, Film, Utensils, Speaker, Palette, BookOpen, 
-  Gamepad2, Shirt, Tree, Puzzle, Heart, Lightbulb, Code, Atom, 
+  Gamepad2, Shirt, Trees, Puzzle, Heart, Lightbulb, Code, Atom, 
   LucideIcon
 } from 'lucide-react';
 
@@ -108,7 +108,7 @@ export const categories: Category[] = [
   {
     id: 'nature',
     name: 'Nature',
-    icon: Tree,
+    icon: Trees,
     color: 'bg-emerald-500',
     count: 0,
   },

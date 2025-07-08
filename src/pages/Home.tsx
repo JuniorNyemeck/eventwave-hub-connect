@@ -91,7 +91,7 @@ const Home = () => {
                   variant="secondary" 
                   className="bg-white/20 text-white border-white/30 hover:bg-white/30 transition-colors px-4 py-2 text-sm"
                 >
-                  <category.icon className="h-4 w-4" />
+                  <category.icon size={16} />
                   <span className="ml-2">{category.name}</span>
                 </Badge>
               </Link>
@@ -158,8 +158,8 @@ const Home = () => {
               <Link key={category.id} to={`/categories/${category.id}`}>
                 <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group border-2 hover:border-primary/50">
                   <CardContent className="p-6 text-center">
-                    <div className={`w-16 h-16 mx-auto mb-4 rounded-full ${category.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                      <category.icon className="h-6 w-6" />
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-full ${category.color} flex items-center justify-center group-hover:scale-110 transition-transform text-white`}>
+                      <category.icon size={24} />
                     </div>
                     <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
                       {category.name}

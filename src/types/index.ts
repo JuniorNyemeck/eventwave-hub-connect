@@ -81,7 +81,7 @@ export interface Booking {
 export interface Category {
   id: string;
   name: string;
-  icon: string;
+  icon: any;
   color: string;
   count: number;
 }

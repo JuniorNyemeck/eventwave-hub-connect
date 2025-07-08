@@ -87,8 +87,8 @@ const CategoryPage = () => {
                 <ArrowLeft className="h-5 w-5" />
               </Button>
             </Link>
-            <div className={`w-12 h-12 rounded-full ${category.color} flex items-center justify-center text-2xl`}>
-              <IconComponent className="h-6 w-6" />
+            <div className={`w-12 h-12 rounded-full ${category.color} flex items-center justify-center text-2xl text-white`}>
+              <IconComponent size={24} />
             </div>
             <div>
               <h1 className="text-4xl font-bold">{category.name}</h1>
