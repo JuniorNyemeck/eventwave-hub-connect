@@ -17,7 +17,7 @@ const Discover = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState([0, 300]);
+  const [priceRange, setPriceRange] = useState([1000, 2000000]);
   const [dateRange, setDateRange] = useState('all');
   const [sortBy, setSortBy] = useState('relevance');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -131,7 +131,7 @@ const Discover = () => {
   const clearFilters = () => {
     setSelectedCategories([]);
     setSelectedCities([]);
-    setPriceRange([0, 300]);
+    setPriceRange([1000, 2000000]);
     setDateRange('all');
     setSearchQuery('');
   };
@@ -201,13 +201,14 @@ const Discover = () => {
       {/* Price Range */}
       <div className="space-y-3">
         <label className="text-sm font-medium">
-          Fourchette de prix: {priceRange[0]} CFA - {priceRange[1]} CFA
+          Fourchette de prix: {priceRange[0].toLocaleString()} CFA - {priceRange[1].toLocaleString()} CFA
         </label>
         <Slider
           value={priceRange}
           onValueChange={setPriceRange}
-          max={300}
-          step={5}
+          min={1000}
+          max={2000000}
+          step={1000}
           className="w-full"
         />
       </div>

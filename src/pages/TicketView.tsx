@@ -31,7 +31,16 @@ const TicketView = () => {
     
     setIsDownloading(true);
     try {
-      await downloadTicketPDF(ticketData);
+      // Fix the interface mismatch
+      const ticketForPDF = {
+        id: ticketData.id,
+        event: ticketData.event,
+        customerName: ticketData.customer || ticketData.customerName,
+        tickets: ticketData.tickets,
+        totalPrice: ticketData.total || ticketData.totalPrice,
+        purchaseDate: ticketData.purchaseDate || new Date().toISOString()
+      };
+      await downloadTicketPDF(ticketForPDF);
     } catch (error) {
       console.error('Erreur lors du téléchargement:', error);
     } finally {
