@@ -230,7 +230,7 @@ export const mockEvents: Event[] = [
       city: 'Douala',
       coordinates: { lat: 4.0511, lng: 9.7679 }
     },
-    category: 'Conférences',
+    category: 'Technologie',
     price: { min: 10000, max: 25000, currency: 'CFA' },
     organizer: {
       id: '2',
@@ -281,7 +281,7 @@ export const mockEvents: Event[] = [
       city: 'Douala',
       coordinates: { lat: 4.0614, lng: 9.7061 }
     },
-    category: 'Culture',
+    category: 'Art',
     price: { min: 2000, max: 8000, currency: 'CFA' },
     organizer: {
       id: '3',
@@ -332,7 +332,7 @@ export const mockEvents: Event[] = [
       city: 'Douala',
       coordinates: { lat: 4.0732, lng: 9.7014 }
     },
-    category: 'Sport',
+    category: 'Sports',
     price: { min: 1000, max: 5000, currency: 'CFA' },
     organizer: {
       id: '4',

@@ -13,20 +13,24 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { LanguageToggle } from '@/components/LanguageToggle';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
+  const { t } = useLanguage();
   const isLoggedIn = false; // This will be managed by auth context later
 
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { label: 'Accueil', path: '/' },
-    { label: 'Découvrir', path: '/discover' },
-    { label: 'Catégories', path: '/categories' },
-    { label: 'Organisateurs', path: '/organizers' },
+    { label: t('nav.home'), path: '/' },
+    { label: t('nav.discover'), path: '/discover' },
+    { label: t('nav.categories'), path: '/categories' },
+    { label: t('nav.organizers'), path: '/organizers' },
   ];
 
   return (
@@ -65,7 +69,7 @@ const Header = () => {
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
-                placeholder="Rechercher des événements..."
+                placeholder={t('discover.search_placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 pr-4"
@@ -75,6 +79,10 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
+            {/* Theme & Language Toggles */}
+            <ThemeToggle />
+            <LanguageToggle />
+            
             {/* Search Mobile */}
             <Button variant="ghost" size="icon" className="lg:hidden">
               <Search className="h-5 w-5" />
@@ -169,13 +177,13 @@ const Header = () => {
                 <Link to="/login">
                   <Button variant="ghost" size="sm">
                     <LogIn className="mr-2 h-4 w-4" />
-                    Connexion
+                    {t('nav.login')}
                   </Button>
                 </Link>
                 <Link to="/register">
                   <Button size="sm">
                     <UserPlus className="mr-2 h-4 w-4" />
-                    S'inscrire
+                    {t('nav.register')}
                   </Button>
                 </Link>
               </div>

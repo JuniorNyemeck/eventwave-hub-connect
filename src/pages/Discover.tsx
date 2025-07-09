@@ -12,8 +12,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import EventCard from '@/components/events/EventCard';
 import { mockEvents, categories } from '@/data/mockData';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Discover = () => {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
@@ -29,12 +31,12 @@ const Discover = () => {
   ];
 
   const sortOptions = [
-    { value: 'relevance', label: 'Pertinence' },
-    { value: 'date-asc', label: 'Date (plus proche)' },
-    { value: 'date-desc', label: 'Date (plus lointaine)' },
-    { value: 'price-asc', label: 'Prix (croissant)' },
-    { value: 'price-desc', label: 'Prix (décroissant)' },
-    { value: 'popularity', label: 'Popularité' }
+    { value: 'relevance', label: t('discover.sort_relevance') },
+    { value: 'date-asc', label: t('discover.sort_date_asc') },
+    { value: 'date-desc', label: t('discover.sort_date_desc') },
+    { value: 'price-asc', label: t('discover.sort_price_asc') },
+    { value: 'price-desc', label: t('discover.sort_price_desc') },
+    { value: 'popularity', label: t('discover.sort_popularity') }
   ];
 
   const filteredEvents = useMemo(() => {
@@ -140,11 +142,11 @@ const Discover = () => {
     <div className="space-y-6">
       {/* Search */}
       <div className="space-y-2">
-        <label className="text-sm font-medium">Recherche</label>
+        <label className="text-sm font-medium">{t('common.search')}</label>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
-            placeholder="Rechercher des événements..."
+            placeholder={t('discover.search_placeholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -154,7 +156,7 @@ const Discover = () => {
 
       {/* Categories */}
       <div className="space-y-3">
-        <label className="text-sm font-medium">Catégories</label>
+        <label className="text-sm font-medium">{t('common.categories')}</label>
         <div className="space-y-2">
           {categories.map((category) => (
             <div key={category.id} className="flex items-center space-x-2">
@@ -233,7 +235,7 @@ const Discover = () => {
       </div>
 
       <Button variant="outline" onClick={clearFilters} className="w-full">
-        Effacer les filtres
+        {t('discover.clear_filters')}
       </Button>
     </div>
   );
@@ -243,9 +245,9 @@ const Discover = () => {
       {/* Header */}
       <div className="bg-muted/30 border-b">
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-4">Découvrir des événements</h1>
+          <h1 className="text-3xl font-bold mb-4">{t('discover.title')}</h1>
           <p className="text-muted-foreground mb-6">
-            Trouvez les événements qui correspondent à vos envies
+            {t('discover.subtitle')}
           </p>
           
           {/* Search Bar */}
@@ -253,7 +255,7 @@ const Discover = () => {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
               <Input
-                placeholder="Rechercher des événements..."
+                placeholder={t('discover.search_placeholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 h-12"

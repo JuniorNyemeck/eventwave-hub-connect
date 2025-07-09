@@ -7,9 +7,11 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { downloadTicketPDF, generateQRCodeForTicket } from '@/utils/ticketGenerator';
 import { mockEvents } from '@/data/mockData';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const TicketView = () => {
   const { ticketId } = useParams();
+  const { t } = useLanguage();
   const [ticketData, setTicketData] = useState<any>(null);
   const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
   const [isDownloading, setIsDownloading] = useState(false);
@@ -51,7 +53,7 @@ const TicketView = () => {
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: `Billet - ${ticketData.event.title}`,
+        title: `${t('common.tickets')} - ${ticketData.event.title}`,
         text: `J'ai un billet pour ${ticketData.event.title}`,
         url: window.location.href
       });
@@ -65,8 +67,8 @@ const TicketView = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Card className="p-8 text-center">
-          <h2 className="text-xl font-bold mb-4">Billet non trouvé</h2>
-          <p className="text-muted-foreground">Ce billet n'existe pas ou a été supprimé.</p>
+          <h2 className="text-xl font-bold mb-4">{t('ticket.not_found')}</h2>
+          <p className="text-muted-foreground">{t('ticket.not_found_desc')}</p>
         </Card>
       </div>
     );
@@ -80,11 +82,11 @@ const TicketView = () => {
           <div className="bg-gradient-to-r from-primary to-primary/80 text-white p-6">
             <div className="flex justify-between items-start">
               <div>
-                <h1 className="text-2xl font-bold mb-2">Billet Électronique</h1>
+                <h1 className="text-2xl font-bold mb-2">{t('ticket.title')}</h1>
                 <p className="opacity-90">EventWave</p>
               </div>
               <Badge variant="secondary" className="bg-white/20 text-white">
-                Valide
+                {t('ticket.valid')}
               </Badge>
             </div>
           </div>
@@ -105,7 +107,7 @@ const TicketView = () => {
                   })}</span>
                 </div>
                 <div className="flex items-center text-muted-foreground">
-                  <span className="font-medium">Heure:</span>
+                  <span className="font-medium">{t('common.time')}:</span>
                   <span className="ml-2">{ticketData.event.time}</span>
                 </div>
               </div>
@@ -124,7 +126,7 @@ const TicketView = () => {
 
             {/* Ticket Details */}
             <div className="space-y-4 mb-6">
-              <h3 className="font-semibold">Détails du billet</h3>
+              <h3 className="font-semibold">{t('ticket.details')}</h3>
               
               <div className="flex items-center text-muted-foreground">
                 <User className="h-4 w-4 mr-2" />
@@ -132,7 +134,7 @@ const TicketView = () => {
               </div>
 
               <div className="space-y-2">
-                <span className="text-sm font-medium">Billets achetés:</span>
+                <span className="text-sm font-medium">{t('ticket.purchased_tickets')}:</span>
                 {Object.entries(ticketData.tickets).map(([ticketId, quantity]: [string, any]) => {
                   if (quantity > 0) {
                     const ticket = ticketData.event.tickets?.find((t: any) => t.id === ticketId);
@@ -150,7 +152,7 @@ const TicketView = () => {
               </div>
 
               <div className="flex justify-between items-center pt-2 border-t">
-                <span className="font-semibold">Total payé:</span>
+                <span className="font-semibold">{t('ticket.total_paid')}:</span>
                 <span className="text-lg font-bold text-primary">{ticketData.total.toLocaleString()} CFA</span>
               </div>
             </div>
@@ -159,14 +161,14 @@ const TicketView = () => {
 
             {/* QR Code */}
             <div className="text-center space-y-4">
-              <h3 className="font-semibold">Code de vérification</h3>
+              <h3 className="font-semibold">{t('ticket.verification')}</h3>
               {qrCodeUrl && (
                 <div className="flex justify-center">
                   <img src={qrCodeUrl} alt="QR Code" className="w-32 h-32 border rounded" />
                 </div>
               )}
               <p className="text-sm text-muted-foreground">
-                Présentez ce QR code à l'entrée de l'événement
+                {t('ticket.qr_instruction')}
               </p>
               <p className="text-xs text-muted-foreground font-mono">
                 ID: {ticketData.id}
@@ -183,23 +185,23 @@ const TicketView = () => {
                 className="flex-1"
               >
                 <Download className="h-4 w-4 mr-2" />
-                {isDownloading ? 'Téléchargement...' : 'Télécharger PDF'}
+                {isDownloading ? t('ticket.downloading') : t('ticket.download_pdf')}
               </Button>
               
               <Button variant="outline" onClick={handleShare} className="flex-1">
                 <Share2 className="h-4 w-4 mr-2" />
-                Partager
+                {t('common.share')}
               </Button>
             </div>
 
             {/* Important Notice */}
-            <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <h4 className="font-medium text-yellow-800 mb-2">Instructions importantes:</h4>
-              <ul className="text-sm text-yellow-700 space-y-1">
-                <li>• Présentez ce billet (imprimé ou numérique) à l'entrée</li>
-                <li>• Une pièce d'identité peut être demandée</li>
-                <li>• Arrivez à l'heure indiquée sur votre billet</li>
-                <li>• Ce billet est non remboursable et non transférable</li>
+            <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+              <h4 className="font-medium text-yellow-800 dark:text-yellow-200 mb-2">{t('ticket.instructions')}:</h4>
+              <ul className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1">
+                <li>• {t('ticket.present')}</li>
+                <li>• {t('ticket.id_required')}</li>
+                <li>• {t('ticket.arrive_time')}</li>
+                <li>• {t('ticket.non_refundable')}</li>
               </ul>
             </div>
           </CardContent>
