@@ -1,50 +1,37 @@
-import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Download, Share2, Calendar, MapPin, User, QrCode } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Download, Share2, Calendar, MapPin, Clock, User, CheckCircle, QrCode, Printer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { downloadTicketPDF, generateQRCodeForTicket } from '@/utils/ticketGenerator';
-import { mockEvents } from '@/data/mockData';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { generateTicketPDF } from '@/utils/ticketGenerator';
 
 const TicketView = () => {
   const { ticketId } = useParams();
-  const { t } = useLanguage();
-  const [ticketData, setTicketData] = useState<any>(null);
-  const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
   const [isDownloading, setIsDownloading] = useState(false);
+  const ticketRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Load ticket data from localStorage
-    const storedTicket = localStorage.getItem(`ticket-${ticketId}`);
-    if (storedTicket) {
-      const data = JSON.parse(storedTicket);
-      setTicketData(data);
-      
-      // Generate QR code
-      generateQRCodeForTicket(ticketId!).then(setQrCodeUrl);
+  // Get ticket data from localStorage (in a real app, this would come from an API)
+  const getTicketData = () => {
+    const savedTickets = localStorage.getItem('purchasedTickets');
+    if (savedTickets) {
+      const tickets = JSON.parse(savedTickets);
+      return tickets.find((ticket: any) => ticket.id === ticketId);
     }
-  }, [ticketId]);
+    return null;
+  };
+
+  const ticketData = getTicketData();
 
   const handleDownloadPDF = async () => {
     if (!ticketData) return;
     
     setIsDownloading(true);
     try {
-      // Fix the interface mismatch
-      const ticketForPDF = {
-        id: ticketData.id,
-        event: ticketData.event,
-        customerName: ticketData.customer || ticketData.customerName,
-        tickets: ticketData.tickets,
-        totalPrice: ticketData.total || ticketData.totalPrice,
-        purchaseDate: ticketData.purchaseDate || new Date().toISOString()
-      };
-      await downloadTicketPDF(ticketForPDF);
+      await generateTicketPDF(ticketData);
     } catch (error) {
-      console.error('Erreur lors du téléchargement:', error);
+      console.error('Error generating PDF:', error);
     } finally {
       setIsDownloading(false);
     }
@@ -53,7 +40,7 @@ const TicketView = () => {
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: `${t('common.tickets')} - ${ticketData.event.title}`,
+        title: `Billets - ${ticketData.event.title}`,
         text: `J'ai un billet pour ${ticketData.event.title}`,
         url: window.location.href
       });
@@ -66,146 +53,189 @@ const TicketView = () => {
   if (!ticketData) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Card className="p-8 text-center">
-          <h2 className="text-xl font-bold mb-4">{t('ticket.not_found')}</h2>
-          <p className="text-muted-foreground">{t('ticket.not_found_desc')}</p>
-        </Card>
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Billet non trouvé</h1>
+          <p className="text-muted-foreground">
+            Ce billet n'existe pas ou a été supprimé.
+          </p>
+        </div>
       </div>
     );
   }
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('fr-FR', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-background py-8">
-      <div className="container mx-auto px-4 max-w-2xl">
-        <Card className="overflow-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-primary to-primary/80 text-white p-6">
-            <div className="flex justify-between items-start">
+    <div className="min-h-screen bg-muted/30 py-8">
+      <div className="container mx-auto px-4 max-w-4xl">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold mb-2">Billet Électronique</h1>
+          <p className="text-muted-foreground">
+            Présentez ce billet (imprimé ou numérique) à l'entrée
+          </p>
+        </div>
+
+        {/* Ticket Card */}
+        <Card ref={ticketRef} className="mb-8 overflow-hidden">
+          {/* Ticket Header */}
+          <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold mb-2">{t('ticket.title')}</h1>
-                <p className="opacity-90">EventWave</p>
+                <Badge variant="secondary" className="bg-white/20 text-white border-0 mb-2">
+                  <CheckCircle className="w-4 h-4 mr-1" />
+                  Valide
+                </Badge>
+                <h2 className="text-2xl font-bold">{ticketData.event.title}</h2>
               </div>
-              <Badge variant="secondary" className="bg-white/20 text-white">
-                {t('ticket.valid')}
-              </Badge>
+              <div className="text-right">
+                <div className="text-sm opacity-90">Billet #</div>
+                <div className="font-mono text-lg">{ticketData.id}</div>
+              </div>
             </div>
           </div>
 
           <CardContent className="p-6">
-            {/* Event Info */}
-            <div className="space-y-4 mb-6">
-              <h2 className="text-xl font-bold">{ticketData.event.title}</h2>
-              
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="flex items-center text-muted-foreground">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  <span>{new Date(ticketData.event.date).toLocaleDateString('fr-FR', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                  })}</span>
+            {/* Event Details */}
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <Calendar className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Date</div>
+                    <div className="text-sm text-muted-foreground">
+                      {formatDate(ticketData.event.date)}
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center text-muted-foreground">
-                  <span className="font-medium">{t('common.time')}:</span>
-                  <span className="ml-2">{ticketData.event.time}</span>
+
+                <div className="flex items-center gap-3">
+                  <Clock className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Heure</div>
+                    <div className="text-sm text-muted-foreground">
+                      {formatTime(ticketData.event.date)}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Lieu</div>
+                    <div className="text-sm text-muted-foreground">
+                      {ticketData.event.location}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <User className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <div className="font-medium">Titulaire</div>
+                    <div className="text-sm text-muted-foreground">
+                      {ticketData.customerName}
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex items-start text-muted-foreground">
-                <MapPin className="h-4 w-4 mr-2 mt-1 flex-shrink-0" />
-                <div>
-                  <div className="font-medium">{ticketData.event.location.venue}</div>
-                  <div>{ticketData.event.location.address}</div>
-                  <div>{ticketData.event.location.city}</div>
+              {/* QR Code */}
+              <div className="flex flex-col items-center justify-center">
+                <div className="bg-white p-4 rounded-lg border-2 border-dashed border-muted mb-4">
+                  <QrCode className="w-32 h-32 text-muted-foreground" />
                 </div>
+                <p className="text-sm text-muted-foreground text-center">
+                  Présentez ce QR code à l'entrée de l'événement
+                </p>
               </div>
             </div>
 
             <Separator className="my-6" />
 
             {/* Ticket Details */}
-            <div className="space-y-4 mb-6">
-              <h3 className="font-semibold">{t('ticket.details')}</h3>
+            <div className="space-y-4">
+              <h3 className="font-semibold">Détails du billet</h3>
               
-              <div className="flex items-center text-muted-foreground">
-                <User className="h-4 w-4 mr-2" />
-                <span>{ticketData.customer}</span>
-              </div>
-
-              <div className="space-y-2">
-                <span className="text-sm font-medium">{t('ticket.purchased_tickets')}:</span>
-                {Object.entries(ticketData.tickets).map(([ticketId, quantity]: [string, any]) => {
-                  if (quantity > 0) {
-                    const ticket = ticketData.event.tickets?.find((t: any) => t.id === ticketId);
-                    if (ticket) {
-                      return (
-                        <div key={ticketId} className="flex justify-between items-center bg-muted/30 p-3 rounded">
-                          <span>{ticket.name} × {quantity}</span>
-                          <span className="font-medium">{(ticket.price * quantity).toLocaleString()} CFA</span>
-                        </div>
-                      );
-                    }
-                  }
-                  return null;
-                })}
-              </div>
-
-              <div className="flex justify-between items-center pt-2 border-t">
-                <span className="font-semibold">{t('ticket.total_paid')}:</span>
-                <span className="text-lg font-bold text-primary">{ticketData.total.toLocaleString()} CFA</span>
-              </div>
-            </div>
-
-            <Separator className="my-6" />
-
-            {/* QR Code */}
-            <div className="text-center space-y-4">
-              <h3 className="font-semibold">{t('ticket.verification')}</h3>
-              {qrCodeUrl && (
-                <div className="flex justify-center">
-                  <img src={qrCodeUrl} alt="QR Code" className="w-32 h-32 border rounded" />
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <div className="text-sm text-muted-foreground">Billets achetés</div>
+                  <div className="font-medium">
+                    {ticketData.tickets.map((ticket: any, index: number) => (
+                      <div key={index}>
+                        {ticket.quantity}x {ticket.type} - {ticket.price.toLocaleString()} CFA
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              )}
-              <p className="text-sm text-muted-foreground">
-                {t('ticket.qr_instruction')}
-              </p>
-              <p className="text-xs text-muted-foreground font-mono">
-                ID: {ticketData.id}
-              </p>
+
+                <div>
+                  <div className="text-sm text-muted-foreground">Total payé</div>
+                  <div className="font-bold text-lg text-primary">
+                    {ticketData.total.toLocaleString()} CFA
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="text-sm text-muted-foreground mb-2">Code de vérification</div>
+                <div className="font-mono bg-muted px-3 py-2 rounded text-sm">
+                  {ticketData.id}
+                </div>
+              </div>
             </div>
 
             <Separator className="my-6" />
 
-            {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                onClick={handleDownloadPDF}
-                disabled={isDownloading}
-                className="flex-1"
-              >
-                <Download className="h-4 w-4 mr-2" />
-                {isDownloading ? t('ticket.downloading') : t('ticket.download_pdf')}
-              </Button>
-              
-              <Button variant="outline" onClick={handleShare} className="flex-1">
-                <Share2 className="h-4 w-4 mr-2" />
-                {t('common.share')}
-              </Button>
-            </div>
-
-            {/* Important Notice */}
-            <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-              <h4 className="font-medium text-yellow-800 dark:text-yellow-200 mb-2">{t('ticket.instructions')}:</h4>
-              <ul className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1">
-                <li>• {t('ticket.present')}</li>
-                <li>• {t('ticket.id_required')}</li>
-                <li>• {t('ticket.arrive_time')}</li>
-                <li>• {t('ticket.non_refundable')}</li>
+            {/* Important Instructions */}
+            <div className="bg-muted/50 p-4 rounded-lg">
+              <h4 className="font-semibold mb-2 flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-600" />
+                Instructions importantes
+              </h4>
+              <ul className="text-sm text-muted-foreground space-y-1">
+                <li>• Présentez ce billet (imprimé ou numérique) à l'entrée</li>
+                <li>• Une pièce d'identité peut être demandée</li>
+                <li>• Arrivez à l'heure indiquée sur votre billet</li>
+                <li>• Ce billet est non remboursable et non transférable</li>
               </ul>
             </div>
           </CardContent>
         </Card>
+
+        {/* Actions */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button onClick={handleDownloadPDF} disabled={isDownloading} size="lg">
+            <Download className="w-4 h-4 mr-2" />
+            {isDownloading ? 'Téléchargement...' : 'Télécharger PDF'}
+          </Button>
+          
+          <Button variant="outline" onClick={handleShare} size="lg">
+            <Share2 className="w-4 h-4 mr-2" />
+            Partager
+          </Button>
+
+          <Button variant="outline" onClick={() => window.print()} size="lg">
+            <Printer className="w-4 h-4 mr-2" />
+            Imprimer
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -14,23 +14,20 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { LanguageToggle } from '@/components/LanguageToggle';
-import { useLanguage } from '@/contexts/LanguageContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
-  const { t } = useLanguage();
   const isLoggedIn = false; // This will be managed by auth context later
 
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { label: t('home'), path: '/' },
-    { label: t('discover'), path: '/discover' },
-    { label: t('categories'), path: '/categories' },
-    { label: t('organizers'), path: '/organizers' },
+    { label: 'Accueil', path: '/' },
+    { label: 'Découvrir', path: '/discover' },
+    { label: 'Catégories', path: '/categories' },
+    { label: 'Organisateurs', path: '/organizers' },
   ];
 
   return (
@@ -69,7 +66,7 @@ const Header = () => {
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
-                placeholder={t('discover.search_placeholder')}
+                placeholder="Rechercher des événements..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 pr-4"
@@ -79,9 +76,8 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            {/* Theme & Language Toggles */}
+            {/* Theme Toggle */}
             <ThemeToggle />
-            <LanguageToggle />
             
             {/* Search Mobile */}
             <Button variant="ghost" size="icon" className="lg:hidden">
@@ -177,13 +173,13 @@ const Header = () => {
                 <Link to="/login">
                   <Button variant="ghost" size="sm">
                     <LogIn className="mr-2 h-4 w-4" />
-                    {t('login')}
+                    Connexion
                   </Button>
                 </Link>
                 <Link to="/register">
                   <Button size="sm">
                     <UserPlus className="mr-2 h-4 w-4" />
-                    {t('register')}
+                    Inscription
                   </Button>
                 </Link>
               </div>

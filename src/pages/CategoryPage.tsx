@@ -1,202 +1,194 @@
-
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Search, Filter, Calendar, MapPin, Users, ArrowLeft } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar, Users, Filter, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import EventCard from '@/components/events/EventCard';
-import { mockEvents, categories, cameroonCities } from '@/data/mockData';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { categories, mockEvents } from '@/data/mockData';
 
 const CategoryPage = () => {
   const { categoryId } = useParams();
-  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
-  const [sortBy, setSortBy] = useState('date-asc');
+  const [sortBy, setSortBy] = useState('relevance');
+  const [priceRange, setPriceRange] = useState<string>('all');
+  const [dateFilter, setDateFilter] = useState<string>('all');
+  const [location, setLocation] = useState<string>('all');
 
   const category = categories.find(cat => cat.id === categoryId);
-  const categoryEvents = mockEvents.filter(event => 
-    event.category.toLowerCase() === category?.name.toLowerCase()
-  );
 
-  const filteredEvents = useMemo(() => {
-    let filtered = categoryEvents.filter(event => {
-      if (searchQuery && !event.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-          !event.shortDescription.toLowerCase().includes(searchQuery.toLowerCase())) {
-        return false;
+  // Filter events by category and search criteria
+  const filteredEvents = mockEvents.filter(event => {
+    const matchesCategory = event.category === categoryId;
+    const matchesSearch = searchQuery === '' || 
+      event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      event.description.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    // Apply price filter
+    let matchesPrice = true;
+    if (priceRange !== 'all') {
+      const eventPrice = typeof event.price === 'number' ? event.price : event.price?.min || 0;
+      switch (priceRange) {
+        case 'free':
+          matchesPrice = eventPrice === 0;
+          break;
+        case 'under-10000':
+          matchesPrice = eventPrice > 0 && eventPrice < 10000;
+          break;
+        case '10000-50000':
+          matchesPrice = eventPrice >= 10000 && eventPrice < 50000;
+          break;
+        case 'over-50000':
+          matchesPrice = eventPrice >= 50000;
+          break;
       }
-      if (selectedCity && event.location.city !== selectedCity) {
-        return false;
-      }
-      return true;
-    });
-
-    switch (sortBy) {
-      case 'date-asc':
-        filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-        break;
-      case 'date-desc':
-        filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        break;
-      case 'price-asc':
-        filtered.sort((a, b) => a.price.min - b.price.min);
-        break;
-      case 'price-desc':
-        filtered.sort((a, b) => b.price.max - a.price.max);
-        break;
-      case 'popularity':
-        filtered.sort((a, b) => b.attendees - a.attendees);
-        break;
     }
 
-    return filtered;
-  }, [categoryEvents, searchQuery, selectedCity, sortBy]);
+    return matchesCategory && matchesSearch && matchesPrice;
+  });
 
   if (!category) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">{t('categories.not_found')}</h1>
-          <Link to="/categories">
-            <Button>{t('categories.back_to_categories')}</Button>
-          </Link>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/categories">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Retour aux catégories
+            </Link>
+          </Button>
+          <div className="mt-8">
+            <h1 className="text-4xl font-bold">
+              Catégorie non trouvée
+            </h1>
+            <p className="text-muted-foreground mb-6 max-w-2xl">
+              Aucun événement ne correspond à vos critères dans cette catégorie.
+            </p>
+          </div>
         </div>
       </div>
     );
   }
 
-  const stats = {
-    totalEvents: categoryEvents.length,
-    totalAttendees: categoryEvents.reduce((sum, event) => sum + event.attendees, 0),
-    avgPrice: categoryEvents.reduce((sum, event) => sum + event.price.min, 0) / categoryEvents.length,
-    upcomingEvents: categoryEvents.filter(event => event.status === 'upcoming').length
-  };
-
-  const IconComponent = category.icon;
-
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-muted/30 border-b">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex items-center space-x-4 mb-6">
+      <div className="bg-gradient-to-r from-red-600/10 to-orange-600/10 py-12">
+        <div className="container mx-auto px-4">
+          <Button variant="outline" size="sm" className="mb-6" asChild>
             <Link to="/categories">
-              <Button variant="ghost" size="icon">
-                <ArrowLeft className="h-5 w-5" />
-              </Button>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Retour aux catégories
             </Link>
-            <div className={`w-12 h-12 rounded-full ${category.color} flex items-center justify-center text-2xl text-white`}>
-              <IconComponent size={24} />
+          </Button>
+          
+          <div className="flex items-center gap-4 mb-6">
+            <div className={`w-16 h-16 rounded-full ${category.color} flex items-center justify-center text-white`}>
+              <category.icon size={32} />
             </div>
-              <div>
-                <h1 className="text-4xl font-bold">{category.name}</h1>
-                <p className="text-muted-foreground">
-                  {stats.totalEvents} {t('discover.events_found').replace('{s}', stats.totalEvents !== 1 ? 's' : '')} • {stats.upcomingEvents} {t('categories.upcoming')}
-                </p>
-              </div>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <Card>
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-primary">{stats.totalEvents}</div>
-                <div className="text-sm text-muted-foreground">{t('common.events')}</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-primary">{stats.totalAttendees.toLocaleString()}</div>
-                <div className="text-sm text-muted-foreground">{t('common.participants')}</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-primary">{Math.round(stats.avgPrice).toLocaleString()}</div>
-                <div className="text-sm text-muted-foreground">{t('categories.avg_price')}</div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-primary">{stats.upcomingEvents}</div>
-                <div className="text-sm text-muted-foreground">{t('categories.upcoming')}</div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Filters */}
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-              <Input
-                placeholder={`${t('common.search')} dans cette catégorie...`}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-12"
-              />
+            <div>
+              <h1 className="text-4xl font-bold">{category.name}</h1>
+              <p className="text-muted-foreground">{filteredEvents.length} événements disponibles</p>
             </div>
-            <Select value={selectedCity} onValueChange={setSelectedCity}>
-              <SelectTrigger className="w-48 h-12">
-                <SelectValue placeholder="Toutes les villes" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">Toutes les villes</SelectItem>
-                {cameroonCities.map(city => (
-                  <SelectItem key={city} value={city}>{city}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-48 h-12">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="date-asc">{t('discover.sort_date_asc')}</SelectItem>
-                <SelectItem value="date-desc">{t('discover.sort_date_desc')}</SelectItem>
-                <SelectItem value="price-asc">{t('discover.sort_price_asc')}</SelectItem>
-                <SelectItem value="price-desc">{t('discover.sort_price_desc')}</SelectItem>
-                <SelectItem value="popularity">{t('discover.sort_popularity')}</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         </div>
       </div>
 
-      {/* Events */}
+      {/* Filters */}
       <div className="container mx-auto px-4 py-8">
-        {filteredEvents.length === 0 ? (
-          <Card className="p-12 text-center">
-            <div className="space-y-4">
-              <div className="text-4xl">🔍</div>
-              <h3 className="text-lg font-semibold">{t('discover.no_events')}</h3>
-              <p className="text-muted-foreground">
-                {t('categories.no_events_category')}
-              </p>
-              <Button onClick={() => {
-                setSearchQuery('');
-                setSelectedCity('');
-              }}>
-                {t('discover.clear_filters')}
-              </Button>
+        <Card className="mb-6">
+          <CardContent className="p-6">
+            <div className="flex flex-col lg:flex-row gap-4">
+              {/* Search */}
+              <div className="flex-1">
+                <Input
+                  placeholder="Rechercher dans cette catégorie..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+
+              {/* Filters */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Select value={priceRange} onValueChange={setPriceRange}>
+                  <SelectTrigger className="w-full sm:w-48">
+                    <SelectValue placeholder="Prix" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tous les prix</SelectItem>
+                    <SelectItem value="free">Gratuit</SelectItem>
+                    <SelectItem value="under-10000">Moins de 10,000 CFA</SelectItem>
+                    <SelectItem value="10000-50000">10,000 - 50,000 CFA</SelectItem>
+                    <SelectItem value="over-50000">Plus de 50,000 CFA</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select value={dateFilter} onValueChange={setDateFilter}>
+                  <SelectTrigger className="w-full sm:w-48">
+                    <SelectValue placeholder="Date" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Toutes les dates</SelectItem>
+                    <SelectItem value="today">Aujourd'hui</SelectItem>
+                    <SelectItem value="week">Cette semaine</SelectItem>
+                    <SelectItem value="month">Ce mois</SelectItem>
+                    <SelectItem value="weekend">Week-ends</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select value={location} onValueChange={setLocation}>
+                  <SelectTrigger className="w-full sm:w-48">
+                    <SelectValue placeholder="Lieu" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tous les lieux</SelectItem>
+                    <SelectItem value="douala">Douala</SelectItem>
+                    <SelectItem value="yaounde">Yaoundé</SelectItem>
+                    <SelectItem value="bafoussam">Bafoussam</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-full sm:w-48">
+                    <SelectValue placeholder="Trier par" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="relevance">Pertinence</SelectItem>
+                    <SelectItem value="date-asc">Date (plus proche)</SelectItem>
+                    <SelectItem value="date-desc">Date (plus lointaine)</SelectItem>
+                    <SelectItem value="price-asc">Prix (croissant)</SelectItem>
+                    <SelectItem value="price-desc">Prix (décroissant)</SelectItem>
+                    <SelectItem value="popularity">Popularité</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          </Card>
+          </CardContent>
+        </Card>
+
+        {/* Results */}
+        {filteredEvents.length === 0 ? (
+          <div className="text-center py-12">
+            <Filter className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-xl font-semibold mb-2">Aucun événement trouvé</h3>
+            <p className="text-muted-foreground">
+              Essayez de modifier vos critères de recherche
+            </p>
+          </div>
         ) : (
           <>
+            <div className="mb-6">
+              <p className="text-muted-foreground">
+                {filteredEvents.length} événement{filteredEvents.length > 1 ? 's' : ''} trouvé{filteredEvents.length > 1 ? 's' : ''}
+              </p>
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredEvents.map((event) => (
                 <EventCard key={event.id} event={event} />
               ))}
-            </div>
-            
-            {/* Pagination placeholder */}
-            <div className="flex justify-center mt-12">
-              <Button variant="outline" size="lg">
-                {t('discover.load_more')}
-              </Button>
             </div>
           </>
         )}
