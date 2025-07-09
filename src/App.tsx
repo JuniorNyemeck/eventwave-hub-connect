@@ -46,8 +46,8 @@ const App = () => (
                 <Route path="create-event" element={<CreateEvent />} />
                 <Route path="profile" element={<Profile />} />
               </Route>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

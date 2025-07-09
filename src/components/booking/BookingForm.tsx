@@ -93,7 +93,7 @@ const BookingForm = ({ selectedTickets, totalPrice, onClose }: BookingFormProps)
       event: event!,
       customerName: `${customerInfo.firstName} ${customerInfo.lastName}`,
       tickets: selectedTickets,
-      totalPrice: totalPrice,
+      total: totalPrice,
       purchaseDate: new Date().toISOString(),
       customer: `${customerInfo.firstName} ${customerInfo.lastName}`
     };

@@ -8,8 +8,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import EventCard from '@/components/events/EventCard';
 import { mockEvents, categories } from '@/data/mockData';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Home = () => {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
 
@@ -42,13 +44,13 @@ const Home = () => {
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4 py-16">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
-            Découvrez des événements
+            {t('home.hero_title_start')}
             <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
-              {' '}extraordinaires
+              {' '}{t('home.hero_title_end')}
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            Participez aux meilleurs événements à Douala et créez vos propres expériences inoubliables
+            {t('home.hero_subtitle')}
           </p>
 
           {/* Search Bar */}

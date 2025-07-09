@@ -99,6 +99,11 @@ const translations = {
     'theme.light': 'Clair',
     'theme.dark': 'Sombre',
     'theme.system': 'Système',
+    
+    // Home page
+    'home.hero_title_start': 'Découvrez des événements',
+    'home.hero_title_end': 'extraordinaires', 
+    'home.hero_subtitle': 'Participez aux meilleurs événements à Douala et créez vos propres expériences inoubliables',
   },
   en: {
     // Navigation
@@ -190,6 +195,11 @@ const translations = {
     'theme.light': 'Light',
     'theme.dark': 'Dark',
     'theme.system': 'System',
+    
+    // Home page
+    'home.hero_title_start': 'Discover extraordinary',
+    'home.hero_title_end': 'events',
+    'home.hero_subtitle': 'Join the best events in Douala and create your own unforgettable experiences',
   }
 };
 
