@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState, useRef } from 'react';
+import { useToast } from '@/hooks/use-toast';
 import { Download, Share2, Calendar, MapPin, Clock, User, CheckCircle, QrCode, Printer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,6 +10,7 @@ import { generateTicketPDF } from '@/utils/ticketGenerator';
 
 const TicketView = () => {
   const { ticketId } = useParams();
+  const { toast } = useToast();
   const [isDownloading, setIsDownloading] = useState(false);
   const ticketRef = useRef<HTMLDivElement>(null);
 
@@ -46,7 +48,10 @@ const TicketView = () => {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert('Lien copié dans le presse-papiers');
+      toast({
+        title: "Lien copié",
+        description: "Le lien a été copié dans le presse-papiers",
+      });
     }
   };
 

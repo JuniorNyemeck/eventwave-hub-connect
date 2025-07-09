@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, User, Phone, Mail, CreditCard, Smartphone } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,6 +20,7 @@ interface BookingFormProps {
 const BookingForm = ({ selectedTickets, totalPrice, onClose }: BookingFormProps) => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [customerInfo, setCustomerInfo] = useState({
     firstName: '',
@@ -57,7 +59,11 @@ const BookingForm = ({ selectedTickets, totalPrice, onClose }: BookingFormProps)
   const handleNext = () => {
     if (step === 1) {
       if (!isValidAge()) {
-        alert('Vous devez avoir au moins 16 ans pour réserver un billet.');
+        toast({
+          title: "Âge requis",
+          description: "Vous devez avoir au moins 16 ans pour réserver un billet.",
+          variant: "destructive",
+        });
         return;
       }
       setStep(2);
@@ -77,7 +83,10 @@ const BookingForm = ({ selectedTickets, totalPrice, onClose }: BookingFormProps)
       generateTicketPDF(ticketId);
       
       setIsProcessing(false);
-      alert('Paiement réussi ! Votre ticket a été généré.');
+      toast({
+        title: "Paiement réussi !",
+        description: "Votre ticket a été généré.",
+      });
       onClose();
       navigate(`/ticket/${ticketId}`);
     }, 2000);
@@ -99,7 +108,10 @@ const BookingForm = ({ selectedTickets, totalPrice, onClose }: BookingFormProps)
     };
     
     // Stocker dans localStorage pour l'accès depuis la page ticket
-    localStorage.setItem(`ticket-${ticketId}`, JSON.stringify(ticketData));
+    const savedTickets = localStorage.getItem('purchasedTickets') || '[]';
+    const tickets = JSON.parse(savedTickets);
+    tickets.push(ticketData);
+    localStorage.setItem('purchasedTickets', JSON.stringify(tickets));
   };
 
   if (!event) return null;
