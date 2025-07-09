@@ -11,15 +11,15 @@ interface LanguageContextType {
 const translations = {
   fr: {
     // Navigation
-    'nav.home': 'Accueil',
-    'nav.discover': 'Découvrir',
-    'nav.categories': 'Catégories',
-    'nav.organizers': 'Organisateurs',
-    'nav.login': 'Connexion',
-    'nav.register': 'Inscription',
-    'nav.dashboard': 'Tableau de bord',
-    'nav.profile': 'Profil',
-    'nav.logout': 'Déconnexion',
+    'home': 'Accueil',
+    'discover': 'Découvrir',
+    'categories': 'Catégories',
+    'organizers': 'Organisateurs',
+    'login': 'Connexion',
+    'register': 'Inscription',
+    'dashboard': 'Tableau de bord',
+    'profile': 'Profil',
+    'logout': 'Déconnexion',
     
     // Common
     'common.search': 'Rechercher',
@@ -102,15 +102,15 @@ const translations = {
   },
   en: {
     // Navigation
-    'nav.home': 'Home',
-    'nav.discover': 'Discover',
-    'nav.categories': 'Categories',
-    'nav.organizers': 'Organizers',
-    'nav.login': 'Login',
-    'nav.register': 'Sign Up',
-    'nav.dashboard': 'Dashboard',
-    'nav.profile': 'Profile',
-    'nav.logout': 'Logout',
+    'home': 'Home',
+    'discover': 'Discover',
+    'categories': 'Categories',
+    'organizers': 'Organizers',
+    'login': 'Login',
+    'register': 'Sign Up',
+    'dashboard': 'Dashboard',
+    'profile': 'Profile',
+    'logout': 'Logout',
     
     // Common
     'common.search': 'Search',

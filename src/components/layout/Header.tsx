@@ -27,10 +27,10 @@ const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { label: t('nav.home'), path: '/' },
-    { label: t('nav.discover'), path: '/discover' },
-    { label: t('nav.categories'), path: '/categories' },
-    { label: t('nav.organizers'), path: '/organizers' },
+    { label: t('home'), path: '/' },
+    { label: t('discover'), path: '/discover' },
+    { label: t('categories'), path: '/categories' },
+    { label: t('organizers'), path: '/organizers' },
   ];
 
   return (
@@ -177,13 +177,13 @@ const Header = () => {
                 <Link to="/login">
                   <Button variant="ghost" size="sm">
                     <LogIn className="mr-2 h-4 w-4" />
-                    {t('nav.login')}
+                    {t('login')}
                   </Button>
                 </Link>
                 <Link to="/register">
                   <Button size="sm">
                     <UserPlus className="mr-2 h-4 w-4" />
-                    {t('nav.register')}
+                    {t('register')}
                   </Button>
                 </Link>
               </div>
