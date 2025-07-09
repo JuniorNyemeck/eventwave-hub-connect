@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { generateTicketPDF } from '@/utils/ticketGenerator';
+import { downloadTicketPDF } from '@/utils/ticketGenerator';
 
 const TicketView = () => {
   const { ticketId } = useParams();
@@ -31,9 +31,18 @@ const TicketView = () => {
     
     setIsDownloading(true);
     try {
-      await generateTicketPDF(ticketData);
+      await downloadTicketPDF(ticketData);
+      toast({
+        title: "Téléchargement réussi",
+        description: "Votre ticket PDF a été téléchargé",
+      });
     } catch (error) {
       console.error('Error generating PDF:', error);
+      toast({
+        title: "Erreur",
+        description: "Erreur lors du téléchargement du PDF",
+        variant: "destructive",
+      });
     } finally {
       setIsDownloading(false);
     }
@@ -145,7 +154,7 @@ const TicketView = () => {
                   <div>
                     <div className="font-medium">Lieu</div>
                     <div className="text-sm text-muted-foreground">
-                      {ticketData.event.location}
+                      {ticketData.event.location?.venue || ticketData.event.location}
                     </div>
                   </div>
                 </div>

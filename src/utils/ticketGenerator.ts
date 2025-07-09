@@ -4,10 +4,14 @@ import { Event, TicketType } from '@/types';
 
 interface TicketData {
   id: string;
-  event: Event;
+  event: any;
   customerName: string;
-  tickets: {[key: string]: number};
-  totalPrice: number;
+  tickets: Array<{
+    type: string;
+    quantity: number;
+    price: number;
+  }>;
+  total: number;
   purchaseDate: string;
 }
 
@@ -73,20 +77,15 @@ export const generateTicketPDF = async (ticketData: TicketData) => {
   yPosition += 10;
 
   pdf.setFont('helvetica', 'normal');
-  Object.entries(ticketData.tickets).forEach(([ticketId, quantity]) => {
-    if (quantity > 0) {
-      const ticket = ticketData.event.tickets?.find(t => t.id === ticketId);
-      if (ticket) {
-        pdf.text(`• ${ticket.name} x ${quantity} - ${(ticket.price * quantity).toLocaleString()} CFA`, 25, yPosition);
-        yPosition += 8;
-      }
-    }
+  ticketData.tickets.forEach((ticket) => {
+    pdf.text(`• ${ticket.type} x ${ticket.quantity} - ${ticket.price.toLocaleString()} CFA`, 25, yPosition);
+    yPosition += 8;
   });
 
   // Total
   yPosition += 5;
   pdf.setFont('helvetica', 'bold');
-  pdf.text(`Total: ${ticketData.totalPrice.toLocaleString()} CFA`, 25, yPosition);
+  pdf.text(`Total: ${ticketData.total.toLocaleString()} CFA`, 25, yPosition);
 
   // QR Code
   pdf.addImage(qrCodeDataURL, 'PNG', pageWidth - 80, 80, 60, 60);
@@ -112,6 +111,7 @@ export const generateTicketPDF = async (ticketData: TicketData) => {
 export const downloadTicketPDF = async (ticketData: TicketData) => {
   const pdf = await generateTicketPDF(ticketData);
   pdf.save(`ticket-${ticketData.id}.pdf`);
+  return pdf;
 };
 
 export const generateQRCodeForTicket = async (ticketId: string): Promise<string> => {

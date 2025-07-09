@@ -79,8 +79,8 @@ const BookingForm = ({ selectedTickets, totalPrice, onClose }: BookingFormProps)
     setTimeout(() => {
       const ticketId = generateTicketId();
       
-      // Générer le ticket PDF
-      generateTicketPDF(ticketId);
+      // Stocker le ticket
+      storeTicketData(ticketId);
       
       setIsProcessing(false);
       toast({
@@ -96,15 +96,21 @@ const BookingForm = ({ selectedTickets, totalPrice, onClose }: BookingFormProps)
     return 'TKT-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
   };
 
-  const generateTicketPDF = (ticketId: string) => {
+  const storeTicketData = (ticketId: string) => {
     const ticketData = {
       id: ticketId,
       event: event!,
       customerName: `${customerInfo.firstName} ${customerInfo.lastName}`,
-      tickets: selectedTickets,
+      tickets: Object.entries(selectedTickets).map(([id, quantity]) => {
+        const ticket = event!.tickets!.find(t => t.id === id)!;
+        return {
+          type: ticket.name,
+          quantity,
+          price: ticket.price * quantity
+        };
+      }),
       total: totalPrice,
-      purchaseDate: new Date().toISOString(),
-      customer: `${customerInfo.firstName} ${customerInfo.lastName}`
+      purchaseDate: new Date().toISOString()
     };
     
     // Stocker dans localStorage pour l'accès depuis la page ticket
@@ -112,6 +118,8 @@ const BookingForm = ({ selectedTickets, totalPrice, onClose }: BookingFormProps)
     const tickets = JSON.parse(savedTickets);
     tickets.push(ticketData);
     localStorage.setItem('purchasedTickets', JSON.stringify(tickets));
+    
+    console.log('Ticket stored:', ticketData);
   };
 
   if (!event) return null;
