@@ -20,8 +20,23 @@ export const generateTicketPDF = async (ticketData: TicketData) => {
   const pageWidth = pdf.internal.pageSize.width;
   const pageHeight = pdf.internal.pageSize.height;
 
-  // Generate QR Code
-  const qrCodeData = `https://eventwave.com/ticket/verify/${ticketData.id}`;
+  // Generate QR Code with all ticket information
+  const qrCodeData = JSON.stringify({
+    ticketId: ticketData.id,
+    event: {
+      title: ticketData.event.title,
+      date: ticketData.event.date,
+      time: ticketData.event.time,
+      venue: ticketData.event.location?.venue || ticketData.event.location,
+      address: ticketData.event.location?.address || '',
+      city: ticketData.event.location?.city || ''
+    },
+    customer: ticketData.customerName,
+    tickets: ticketData.tickets,
+    total: ticketData.total,
+    purchaseDate: ticketData.purchaseDate,
+    currency: 'CFA'
+  });
   const qrCodeDataURL = await QRCode.toDataURL(qrCodeData);
 
   // Header
