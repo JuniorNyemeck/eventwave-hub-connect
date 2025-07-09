@@ -1,17 +1,19 @@
 import { useParams } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { Download, Share2, Calendar, MapPin, Clock, User, CheckCircle, QrCode, Printer } from 'lucide-react';
+import { Download, Share2, Calendar, MapPin, Clock, User, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { downloadTicketPDF } from '@/utils/ticketGenerator';
+import QRCode from 'qrcode';
 
 const TicketView = () => {
   const { ticketId } = useParams();
   const { toast } = useToast();
   const [isDownloading, setIsDownloading] = useState(false);
+  const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
   const ticketRef = useRef<HTMLDivElement>(null);
 
   // Get ticket data from localStorage (in a real app, this would come from an API)
@@ -25,6 +27,39 @@ const TicketView = () => {
   };
 
   const ticketData = getTicketData();
+
+  // Generate QR code with all ticket information
+  useEffect(() => {
+    const generateQRCode = async () => {
+      if (ticketData) {
+        const qrCodeData = JSON.stringify({
+          ticketId: ticketData.id,
+          event: {
+            title: ticketData.event.title,
+            date: ticketData.event.date,
+            time: ticketData.event.time,
+            venue: ticketData.event.location?.venue || ticketData.event.location,
+            address: ticketData.event.location?.address || '',
+            city: ticketData.event.location?.city || ''
+          },
+          customer: ticketData.customerName,
+          tickets: ticketData.tickets,
+          total: ticketData.total,
+          purchaseDate: ticketData.purchaseDate,
+          currency: 'CFA'
+        });
+        
+        try {
+          const qrCodeDataURL = await QRCode.toDataURL(qrCodeData);
+          setQrCodeUrl(qrCodeDataURL);
+        } catch (error) {
+          console.error('Error generating QR code:', error);
+        }
+      }
+    };
+
+    generateQRCode();
+  }, [ticketData]);
 
   const handleDownloadPDF = async () => {
     if (!ticketData) return;
@@ -173,7 +208,11 @@ const TicketView = () => {
               {/* QR Code */}
               <div className="flex flex-col items-center justify-center">
                 <div className="bg-white p-4 rounded-lg border-2 border-dashed border-muted mb-4">
-                  <QrCode className="w-32 h-32 text-muted-foreground" />
+                  {qrCodeUrl ? (
+                    <img src={qrCodeUrl} alt="QR Code" className="w-32 h-32" />
+                  ) : (
+                    <div className="w-32 h-32 bg-muted animate-pulse rounded" />
+                  )}
                 </div>
                 <p className="text-sm text-muted-foreground text-center">
                   Présentez ce QR code à l'entrée de l'événement
@@ -243,11 +282,6 @@ const TicketView = () => {
           <Button variant="outline" onClick={handleShare} size="lg">
             <Share2 className="w-4 h-4 mr-2" />
             Partager
-          </Button>
-
-          <Button variant="outline" onClick={() => window.print()} size="lg">
-            <Printer className="w-4 h-4 mr-2" />
-            Imprimer
           </Button>
         </div>
       </div>
