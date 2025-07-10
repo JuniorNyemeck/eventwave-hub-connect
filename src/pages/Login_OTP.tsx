@@ -52,7 +52,7 @@ const Login_OTP = () => {
                 <Input
                   id="otp"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Votre mot de passe"
+                  placeholder="Code envoyé par email"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10 pr-10"
