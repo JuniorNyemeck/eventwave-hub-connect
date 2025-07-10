@@ -7,9 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import Login_OTP from './Login_OTP';
 
-const Login = () => {
+const Login_OTP = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -37,35 +36,21 @@ const Login = () => {
               EventWave
             </span>
           </Link>
-          <CardTitle className="text-2xl">Bienvenue !</CardTitle>
+          <CardTitle className="text-2xl">Plus qu'un instant !</CardTitle>
           <p className="text-muted-foreground">
-            Connectez-vous à votre compte EventWave
+            Entrez le code OTP envoyé à votre adresse e-mail pour continuer
           </p>
         </CardHeader>
         <CardContent className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="votre@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10"
-                  required
-                />
-              </div>
-            </div>
             
+
             <div className="space-y-2">
-              <Label htmlFor="password">Mot de passe</Label>
+              <Label htmlFor="password">Code</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
-                  id="password"
+                  id="otp"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Votre mot de passe"
                   value={password}
@@ -100,15 +85,13 @@ const Login = () => {
                   Se souvenir de moi
                 </Label>
               </div>
-              <Link to="/forgot-password" className="text-sm text-primary hover:underline">
-                Mot de passe oublié ?
+              <Link to="/login" className="text-sm text-primary hover:underline">
+                Code non reçu ?
               </Link>
             </div>
 
             <Button type="submit" className="w-full" disabled={isLoading}>
-              <Link to="/login_otp" >
-                {isLoading ? 'Connexion...' : 'Se connecter'}
-                </Link>
+              {isLoading ? 'Connexion...' : 'Se connecter'}
             </Button>
           </form>
 
@@ -128,4 +111,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login_OTP;

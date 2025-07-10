@@ -20,6 +20,7 @@ import TicketPurchase from "./pages/TicketPurchase";
 import TicketView from "./pages/TicketView";
 import Organizers from "./pages/Organizers";
 import NotFound from "./pages/NotFound";
+import Login_OTP from "./pages/Login_OTP";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
                 <Route path="profile" element={<Profile />} />
               </Route>
               <Route path="login" element={<Login />} />
+              <Route path="login_OTP" element={<Login_OTP />} />
               <Route path="register" element={<Register />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
