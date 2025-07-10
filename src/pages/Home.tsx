@@ -208,7 +208,7 @@ const Home = () => {
             Rejoignez des centaines d'organisateurs qui font confiance à EventWave pour créer des expériences mémorables à Douala
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/create-event">
+            <Link to="/login">
               <Button size="lg" variant="secondary" className="h-12 px-8">
                 Créer un événement
               </Button>
